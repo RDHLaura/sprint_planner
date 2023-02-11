@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "username": "johndoe",
+    "email": "johndoe@example.com",
+    "password": "secretpassword",
+    "github_username": "johndoe"
+  },
+  {
+    "id": 2,
+    "username": "janedoe",
+    "email": "janedoe@example.com",
+    "password": "supersecret",
+    "github_username": "janedoe"
+  },
+  {
+    "id": 3,
+    "username": "jimsmith",
+    "email": "jimsmith@example.com",
+    "password": "password123",
+    "github_username": "jimsmith"
+  }
+]

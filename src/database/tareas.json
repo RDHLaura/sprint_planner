@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "asignada_a": 1,
+    "descripcion": "Desarrollar la funcionalidad de inicio de sesión",
+    "fecha_entrega": "2023-03-01",
+    "id_proyecto": 1,
+    "estado": "no-empezado"
+  },
+  {
+    "id": 2,
+    "asignada_a": 2,
+    "descripcion": "Diseñar la página de perfil de usuario",
+    "fecha_entrega": "2023-03-15",
+    "id_proyecto": 1,
+    "estado": "en-proceso"
+  },
+  {
+    "id": 3,
+    "asignada_a": 3,
+    "descripcion": "Implementar la funcionalidad de agregar proyectos",
+    "fecha_entrega": "2023-02-28",
+    "id_proyecto": 2,
+    "estado": "terminada"
+  }
+]
