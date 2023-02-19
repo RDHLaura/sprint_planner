@@ -5,11 +5,11 @@
 
     <form class="d-flex flex-column  align-items-center gap-3"   novalidate @submit.prevent="submitForm">
       <div class="input-group input-group-sm mb-3 w-50 ">
-        <span class="input-group-text px-3" id="inputGroup-sizing-sm" style="width: 12rem;">Título proyecto</span>
+        <span class="input-group-text px-3" id="inputGroup-sizing-sm" style="width: 7rem;">Título proyecto</span>
         <input v-model="formData.titulo" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
       </div>
       <div class="input-group input-group-sm mb-3 w-50">
-        <span class="input-group-text px-3" style="width: 12rem;">Descripción</span>
+        <span class="input-group-text px-3" style="width: 7rem;">Descripción</span>
         <textarea v-model="formData.descripcion" class="form-control" aria-label="With textarea"></textarea>
       </div>
       <div class="m-3 mb-5">

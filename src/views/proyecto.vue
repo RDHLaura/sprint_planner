@@ -32,18 +32,18 @@ export default {
       proyecto: {},
       usuarios: usuariosData,
       creador: null,
-      renderComponent: true,
+      renderComponent: false,
       propietario: null
     }
   },
   mounted() {
     const route = useRoute()
-
     axios.get(API + '/proyectos/'+ route.params.id)
       .then(response => {
         this.proyecto= response.data;
         this.creador = this.usuarios[this.proyecto.creador].username
-        this.propietario = esCreador(this.proyecto.creador)
+        this.propietario = esCreador(this.proyecto.creador);
+        this.componenteCreado()
       })
       .catch(error => {
         console.log(error);
