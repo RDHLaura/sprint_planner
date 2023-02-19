@@ -88,7 +88,7 @@ import {useRoute} from "vue-router";
 import sortJsonArray from 'sort-json-array';
 import axios from "axios";
 import API from "@/routes/API";
-import {esMiembro } from "@/utils/login";
+import {esUsuarioRegistrado } from "@/utils/login";
 
 
 export default {
@@ -119,7 +119,7 @@ export default {
           response.data.content.map(tarea =>{
             if(this.propietario){
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
-            }else if(esMiembro(tarea.asignada_a)){
+            }else if(esUsuarioRegistrado(tarea.asignada_a)){
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
             }
           })

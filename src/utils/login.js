@@ -8,6 +8,6 @@ export function esCreador (idProyecto){
   }
 }
 
-export function esMiembro (asignado){
-  asignado == USERID
+export function esUsuarioRegistrado (id){
+  return id == USERID
 }
