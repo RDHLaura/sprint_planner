@@ -1,6 +1,6 @@
-let USERID = null;
+export let USERID = null;
 
-export default USERID
+
 
 export function esCreador (idProyecto){
   return USERID == idProyecto;
