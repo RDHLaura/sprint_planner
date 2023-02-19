@@ -33,7 +33,7 @@ export default {
       usuarios: usuariosData,
       creador: null,
       renderComponent: true,
-      propietario: true
+      propietario: null
     }
   },
   mounted() {

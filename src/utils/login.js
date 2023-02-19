@@ -3,9 +3,7 @@ const USERID = 1;
 export default USERID
 
 export function esCreador (idProyecto){
-  if(USERID == idProyecto){
-    return true;
-  }
+  return USERID == idProyecto;
 }
 
 export function esUsuarioRegistrado (id){
