@@ -13,7 +13,7 @@
         <textarea v-model="formData.descripcion" class="form-control" aria-label="With textarea"></textarea>
       </div>
       <div class="m-3 mb-5">
-        <a class="btn btn-outline-secondary m-2 fs-4" data-bs-toggle="collapse" href="#crearEquipo" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <a class="btn btn-outline-secondary m-2 " data-bs-toggle="collapse" href="#crearEquipo" role="button" aria-expanded="false" aria-controls="collapseExample">
           Crear equipo
         </a>
         <input type="submit" class="btn btn-outline-secondary m-2" value="Guardar" />
