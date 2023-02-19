@@ -1,6 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
 import Navbar from "@/components/navbar.vue";
+
 </script>
 
 <template >
@@ -14,5 +15,10 @@ import Navbar from "@/components/navbar.vue";
 <style scoped>
 .main{
   padding: 0 2rem;
+  height: 90vh;
 }
+
+
+
+
 </style>

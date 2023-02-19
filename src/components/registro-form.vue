@@ -1,6 +1,6 @@
 <template>
-  <div class="register-form">
-    <form novalidate @submit.prevent="submitForm">
+  <div class= "register-form ">
+    <form novalidate @submit.prevent="submitForm" >
       <label for="nombre">Nombre de usuario:</label>
       <input type="text" id="nombre" v-model="nombre" required />
       <span v-if="msg.nombre">{{msg.nombre}}</span>
@@ -9,15 +9,16 @@
       <input type="text" id="email" v-model="email" required />
       <span v-if="msg.email">{{msg.email}}</span>
 
-
-      <label for="userGithub">Nombre de usuario de Github:</label>
-      <input type="text" id="userGithub" v-model="userGithub" required />
-
-      <label for="clave">Clave:</label>
+      <label for="clave">Contraseña:</label>
       <input type="password" id="password" v-model="password" required />
       <span v-if="msg.password">{{msg.password}}</span>
 
-      <input type="submit" value="Registrarse" />
+      <label for="clave">Repetir contraseña:</label>
+      <input type="password" id="password" v-model="password" required />
+      <span v-if="msg.password">{{msg.password}}</span>
+
+      <button value="Entrar" class="btn btn-outline-secondary w-100 fs-4 fw-bold">Regístraste</button>
+      <button class="btn btn-link w-100 align-self-center fs-4"  type="button" @click="isRegistered"> Ya tengo cuenta</button>
 
     </form>
 
@@ -29,6 +30,11 @@
 import {validEmail, validPassword, validNombreUsu, isEmpty} from "@/utils/validations";
 
 export default {
+  props:{
+    isRegistered:{
+      type: Function
+    }
+  },
 
   data() {
     return {
@@ -74,4 +80,7 @@ export default {
 
 <style scoped>
 @import '../assets/form.css';
+spam,input, select, textarea, a{
+  font-size: 1.2rem !important;
+}
 </style>

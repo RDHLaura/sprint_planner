@@ -1,23 +1,72 @@
-[
-  {
+{
+  "1": {
     "id": 1,
     "username": "johndoe",
     "email": "johndoe@example.com",
     "password": "secretpassword",
     "github_username": "johndoe"
   },
-  {
+  "2": {
     "id": 2,
     "username": "janedoe",
     "email": "janedoe@example.com",
-    "password": "supersecret",
+    "password": "janepassword",
     "github_username": "janedoe"
   },
-  {
+  "3": {
     "id": 3,
-    "username": "jimsmith",
-    "email": "jimsmith@example.com",
-    "password": "password123",
-    "github_username": "jimsmith"
+    "username": "bobsaget",
+    "email": "bobsaget@example.com",
+    "password": "bobspassword",
+    "github_username": "bobsaget"
+  },
+  "4": {
+    "id": 4,
+    "username": "alicewonderland",
+    "email": "alice@example.com",
+    "password": "alicepassword",
+    "github_username": "alicewonderland"
+  },
+  "5": {
+    "id": 5,
+    "username": "superman",
+    "email": "superman@example.com",
+    "password": "kryptonite",
+    "github_username": "superman"
+  },
+  "6": {
+    "id": 6,
+    "username": "spiderman",
+    "email": "spiderman@example.com",
+    "password": "spideypassword",
+    "github_username": "spiderman"
+  },
+  "7": {
+    "id": 7,
+    "username": "batman",
+    "email": "batman@example.com",
+    "password": "batpassword",
+    "github_username": "batman"
+  },
+  "8": {
+    "id": 8,
+    "username": "wonderwoman",
+    "email": "wonderwoman@example.com",
+    "password": "amazon",
+    "github_username": "wonderwoman"
+  },
+  "9": {
+    "id": 9,
+    "username": "ironman",
+    "email": "ironman@example.com",
+    "password": "tonystark",
+    "github_username": "ironman"
+  },
+  "10": {
+    "id": 10,
+    "username": "thor",
+    "email": "thor@example.com",
+    "password": "mjolnir",
+    "github_username": "thor"
   }
-]
+}

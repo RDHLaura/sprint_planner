@@ -1,0 +1,66 @@
+
+<template>
+  <div>
+    <newTask @actualizar="actualizar" class="square border border-secondary" v-if="showSquare" />
+    <button id="toggle-square" @click="toggleSquare"><i class="bi bi-plus-square"></i></button>
+  </div>
+</template>
+
+<script>
+  import newTask from "@/components/taskForm.vue";
+  export default {
+    data() {
+      return {
+        showSquare: false,
+      };
+    },
+    methods: {
+      toggleSquare() {
+        this.showSquare = !this.showSquare;
+      },
+      actualizar() {
+        // lógica de la acción
+        this.showSquare = !this.showSquare;
+        this.$emit('componenteCreado')
+      },
+    },
+    components:{
+      newTask,
+    }
+  };
+</script>
+
+<style scoped>
+  #toggle-square {
+    position: fixed;
+    bottom: 2rem;
+    left: calc(50% - 2rem);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 20px;
+    color: black; /* TODO color fondo*/
+    transition: all 0.3s ease-in-out;
+    font-size: 2rem;
+    border-width: 0px;
+  }
+  #toggle-square:hover {
+    transform: translateY(-10px);
+    font-size: 2.2rem;
+    cursor: pointer;
+  }
+
+  .square {
+    position: fixed !important;
+    top: 50% ;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw !important;
+    height: 75vh !important;
+    background-color: #F8F9FA;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: scroll;
+    overflow-x: hidden;
+
+  }
+</style>

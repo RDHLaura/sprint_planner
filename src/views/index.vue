@@ -1,26 +1,33 @@
 <template>
-
-
-
-  <main class="container text-center">
-
-  <h1>pagina index</h1>
-  <div class="register-form">
-    <LoginForm v-if="!estaRegistrado"/>
-    <RegistroForm v-if="estaRegistrado" />
-    <button class="btn btn-link align-middle" type="button" @click="toLogin">{{ (!estaRegistrado? "¿Aún no tienes cuenta?" : "Ya tengo cuenta" )}}</button>
-  </div>
+  <main class="d-flex flex-row m-5">
+    <div class="row mx-5">
+      <div class="col d-flex flex-column text-center align-items-center vw-50">
+        <h1 class="display-4">Organiza a tu equipo.</h1>
+        <p class="w-75 m-3">Plataforma de trabajo colaborativo online, para pequeños equipos que se inician en las metodologías ágiles.
+          Permite organizar tus Sprints con tu equipo de forma sencilla. </p>
+        <img :src="image" class="rounded mx-auto mt-5" style="max-width: 30rem"/>
+      </div>
+      <div class="col register-form mt-5 vw-50">
+        <LoginForm :isRegistered="isRegistered" v-if="!estaRegistrado"/>
+        <RegistroForm :isRegistered="isRegistered" v-if="estaRegistrado" />
+      </div>
+    </div>
   </main>
+
+
 </template>
 
 <script>
 import RegistroForm from "../components/registro-form.vue";
 import LoginForm from "../components/login-form.vue";
+import image from "../assets/19719.jpg"
+
 export default {
   name: 'IndexPage',
   data(){
     return {
-      estaRegistrado : false
+      estaRegistrado : false,
+      image: image
     }
   },
   components: {
@@ -29,7 +36,7 @@ export default {
 
   },
   methods: {
-    toLogin(){
+    isRegistered(){
       this.estaRegistrado = !this.estaRegistrado
     }
   }
@@ -37,6 +44,4 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/form.css';
-
 </style>

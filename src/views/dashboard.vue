@@ -1,23 +1,20 @@
 <template>
-  <h1>pagina dashboard</h1>
-  <ListadoProyectos />
-  <ButtonNewProyect />
+  <main class="container-fluid vh-100 w-75">
+    <h1 class="display-3 text-center fw-semibold" style="color: #454545 !important;">SprintPlanner</h1>
+    <ListadoProyectos />
+  </main>
+  <ButtonNewProject />
 </template>
 
 <script>
 import ListadoProyectos from "../components/listadoProyectos.vue";
-import ButtonNewProyect from "../components/button_newProyect.vue"
+import ButtonNewProject from "../components/button_newProject.vue"
 export default {
   name: "dashboard",
 
   components:{
     ListadoProyectos,
-    ButtonNewProyect
-  },
-  methods:{
-    nuevoProyecto(){
-      this.$router.push("/nuevoproyecto")
-    }
+    ButtonNewProject
   }
 }
 </script>

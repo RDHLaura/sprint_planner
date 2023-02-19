@@ -1,7 +1,7 @@
 <template>
-  <div class="register-form">
-    <form novalidate @submit.prevent="submitForm">
+  <div class="register-form  mt-5">
 
+    <form novalidate @submit.prevent="submitForm">
       <label for="email">Email:</label>
       <input type="text" id="email" v-model="email" required />
       <span v-if="msg.email">{{msg.email}}</span>
@@ -10,7 +10,8 @@
       <input type="password" id="password" v-model="password" required />
       <span v-if="msg.password">{{msg.password}}</span>
 
-      <input type="submit" value="Entrar" />
+      <button value="Entrar" class="btn btn-outline-secondary w-100 fs-4 fw-bold">Entrar</button>
+      <button class="btn btn-link w-100 align-self-center fs-4"  type="button" @click="isRegistered" >¿Aún no tienes cuenta?</button>
     </form>
   </div>
 </template>
@@ -20,6 +21,11 @@
 
 import {isEmpty, validEmail, validPassword} from "@/utils/validations";
 export default {
+  props:{
+    isRegistered: {
+      type: Function
+    }
+  },
   data() {
     return {
       email: "",
@@ -46,8 +52,11 @@ export default {
       this.msg.email = this.msg.email || isEmpty(this.email);
       this.msg.password = this.msg.password || isEmpty(this.password);
 
-      if(Object.values(this.msg).every((err)=> err.length===0))
-        this.$router.push("/proyectos")
+      if(Object.values(this.msg).every((err)=> err.length===0)){
+        this.$router.push("/proyectos");
+        console.log("entra bien")
+      }
+
     },
 
   }
@@ -56,4 +65,7 @@ export default {
 
 <style scoped>
 @import '../assets/form.css';
+spam,input, select, textarea, a{
+  font-size: 1.2rem !important;
+}
 </style>

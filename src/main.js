@@ -4,7 +4,9 @@ import './assets/main.css';
 import router from "./routes/routes";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+
+app.use(router).mount('#app')
 
 
 import "bootstrap/dist/js/bootstrap.js";

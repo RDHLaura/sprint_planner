@@ -34,8 +34,15 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --bs-body-font-family: 'Abel', sans-serif !important;
+  --bs-body-color: #454545 !important;
 }
 
+body{
+  background: linear-gradient(rgba(245, 245, 245, 0.85), rgba(245, 245, 245, 0.85)), url("/src/assets/19719.jpg") no-repeat center !important;
+  font-size: 2rem !important;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
@@ -58,5 +65,20 @@
   position: relative;
   font-weight: normal;
 }
+
+
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background-color: rgb(245, 245, 245);
+    border-radius: 30%;
+  }
+::-webkit-scrollbar-thumb{
+  background-color: #C6EDE2;
+}
+
+
+
+
 
 

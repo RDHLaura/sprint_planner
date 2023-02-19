@@ -1,44 +1,35 @@
 <template>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light position-nav">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light position-nav mb-5">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Navbar</a>
+      <a class="navbar-brand mx-5 fs-2 fw-semibold" href="/" style="color: #454545 !important; ">
+        SprintPlanner
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav d-flex  mb-2 mb-lg-0 mx-5">
+          <li class="nav-item mx-2">
+            <a class="nav-link fs-4" href="#">Contacto</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Enlace</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Acción</a></li>
-              <li><a class="dropdown-item" href="#">Otra acción</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Algo más aquí</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Deshabilitado</a>
+          <li class="nav-item mx-2">
+            <a class="nav-link active fs-4" aria-current="page" href="#">Perfil</a>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
+
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+/**
+ * TODO
+ * Cambiar los enlaces de la navbar
+ * Incluir el logo
+ * Página de contacto
+ *
+ */
 export default {
   name: "Navbar"
 }
