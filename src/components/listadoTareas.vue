@@ -49,10 +49,10 @@
 
     <tbody >
         <tr v-for="(todo) in tareas" :key="todo.id" >
-          <td class="pt-3"  >{{ todo.titulo }}
-          <p class="fs-4 " >{{ todo.descripcion }}</p>
+          <td class="pt-3 fs-3"  >{{ todo.titulo }}
+          <p class="fs-5" >{{ todo.descripcion }}</p>
           </td>
-          <td class="pt-3"> {{ todo.fecha_entrega}}</td>
+          <td class="pt-3 fs-5"> {{ todo.fecha_entrega}}</td>
           <td class="pt-3">
             <div class="d-flex justify-content-start align-items-center">
               <div class="status-indicator mb-1 me-2"
@@ -67,11 +67,11 @@
                       'status-text-todo': todo.estado === 'no-empezado',
                       'status-text-ongoing': todo.estado === 'en-proceso',
                       'status-text-finished': todo.estado === 'terminada',}">
-                <p class="fs-4">{{ todo.estado }}</p>
+                <p class="fs-5">{{ todo.estado }}</p>
               </div>
             </div>
           </td>
-          <td class="pt-3">{{ todo.nameUserAsigned}}</td>
+          <td class="pt-3 fs-5">{{ todo.nameUserAsigned}}</td>
 
           <td v-if="propietario" class="pt-3"><a @click="eliminar(todo.id)" class="bi bi-x-octagon fs-4 status-text-todo"></a></td>
 

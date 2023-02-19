@@ -2,7 +2,10 @@
 <template>
   <div>
     <CrearProyecto class="square border border-secondary" v-if="showSquare" />
-    <button id="toggle-square" @click="toggleSquare"><i class="bi bi-plus-square"></i></button>
+    <button id="toggle-square" @click="toggleSquare">
+      <i v-if="!showSquare" class="bi bi-plus-square"></i>
+      <i v-if="showSquare" class="bi bi-x-square"></i>
+    </button>
   </div>
 </template>
 
@@ -29,28 +32,29 @@ export default {
 <style scoped>
 #toggle-square {
   position: fixed;
-  bottom: 2rem;
-  left: calc(50% - 2rem);
-  width: 4rem;
-  height: 4rem;
+  top: 2rem;
+  left: calc(50% - 1.5rem);
+  width: 3rem;
+  height: 3rem;
   border-radius: 20px;
   color: black; /* TODO color fondo*/
   transition: all 0.3s ease-in-out;
-  font-size: 2rem;
+  font-size: 1.5rem;
   border-width: 0px;
+  z-index: 100;
 }
 #toggle-square:hover {
   transform: translateY(-10px);
-  font-size: 2.2rem;
+  font-size: 1.7rem;
   cursor: pointer;
 }
 
 .square {
   position: fixed !important;
-  top: 50% ;
+  top: 51% ;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw !important;
+  width: 80vw !important;
   height: 75vh !important;
   background-color: #F8F9FA;
   border-radius: 20px;
