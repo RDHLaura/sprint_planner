@@ -20,6 +20,7 @@
 
 
 import {isEmpty, validEmail, validPassword} from "@/utils/validations";
+
 export default {
   props:{
     isRegistered: {
@@ -54,7 +55,7 @@ export default {
 
       if(Object.values(this.msg).every((err)=> err.length===0)){
         this.$router.push("/proyectos");
-        console.log("entra bien")
+
       }
 
     },

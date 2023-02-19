@@ -14,16 +14,13 @@
             </div>
           </router-link>
         </div>
-
       </div>
       <pagination
           :pagination="pagination"
           @go-to-page="gotoPage"
           class="d-flex flex-wrap my-5 justify-content-center"
-
       />
     </div>
-
 </template>
 
 
@@ -33,7 +30,7 @@ import usuariosData from "../database/usuarios.json";
 import axios from "axios";
 import API from "@/routes/API";
 import pagination from "@/components/pagination.vue";
-import USERID from "@/utils/login";
+import {getUserID} from "@/utils/login";
 export default {
   name: "listadoProyectos",
   data(){
@@ -48,7 +45,7 @@ export default {
     pagination
   },
   mounted() {
-    axios.get(API + '/proyectos/?user='+ USERID)
+    axios.get(API + '/proyectos/?user='+ getUserID())
         .then(response => {
           this.proyectos = response.data.content;
           this.pagination = response.data.pagination
