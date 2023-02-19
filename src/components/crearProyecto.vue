@@ -1,7 +1,7 @@
 <template>
   <div class="text-center  ">
     <div class="mt-5">
-    <h1 class="display-2 m-5">Nuevo proyecto</h1>
+    <h1 class="display-4 m-5">Nuevo proyecto</h1>
 
     <form class="d-flex flex-column  align-items-center gap-3"   novalidate @submit.prevent="submitForm">
       <div class="input-group input-group-sm mb-3 w-50 ">
@@ -101,6 +101,6 @@ ul li {
   list-style: none;
 }
 span, input, textarea{
-  font-size: 1.5rem !important;
+  font-size: 1rem !important;
 }
 </style>
