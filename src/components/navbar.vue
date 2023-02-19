@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light position-nav mb-5">
     <div class="container-fluid">
-      <a class="navbar-brand mx-5 fs-2 fw-semibold" href="/" style="color: #454545 !important; ">
+      <a v-if="!userID" class="navbar-brand mx-5 fs-2 fw-semibold" href="/" style="color: #454545 !important; ">
+        SprintPlanner
+      </a>
+      <a v-if="userID" class="navbar-brand mx-5 fs-2 fw-semibold" href="/proyectos" style="color: #454545 !important; ">
         SprintPlanner
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import { USERID } from "@/utils/login";
 /**
  * TODO
  * Cambiar los enlaces de la navbar
@@ -31,7 +35,13 @@
  *
  */
 export default {
-  name: "Navbar"
+  name: "Navbar",
+  data(){
+    return{
+      userID : USERID
+    }
+
+  }
 }
 </script>
 <style scoped>
