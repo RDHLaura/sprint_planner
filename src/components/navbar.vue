@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light position-nav mb-5">
     <div class="container-fluid">
-      <a class="navbar-brand mx-5 fs-2 fw-semibold" href="/proyectos" style="color: #454545 !important; ">
+      <a class="navbar-brand mx-5 fs-2 fw-semibold" @click="gotoDashboard" style="color: #454545 !important; ">
         SprintPlanner
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,11 @@
 
 export default {
   name: "Navbar",
+  methods:{
+    gotoDashboard(){
+      this.$router.push("/proyectos");
+    }
+  }
 }
 </script>
 <style scoped>
