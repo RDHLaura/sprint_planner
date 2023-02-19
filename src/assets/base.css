@@ -41,7 +41,7 @@
 
 body{
   background: linear-gradient(rgba(245, 245, 245, 0.85), rgba(245, 245, 245, 0.85)), url("/src/assets/19719.jpg") no-repeat center !important;
-  font-size: 2rem !important;
+  font-size: 1rem !important;
 }
 @media (prefers-color-scheme: dark) {
   :root {
