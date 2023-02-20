@@ -44,4 +44,7 @@ export default {
 </script>
 
 <style scoped>
+main{
+  margin-top: 5vh !important;
+}
 </style>

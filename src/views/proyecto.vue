@@ -1,4 +1,5 @@
 <template >
+  <Navbar />
   <main class="container w-75 vh-100" >
     <h1 class="display-3 text-center fw-semibold mb-4" style="color: #454545 !important;">{{ proyecto.titulo }}</h1>
     <div class="bg-light m-3 px-5 py-4 rounded">
@@ -7,12 +8,14 @@
       <h2 class="h3 mb-3 fw-bold">Participantes:</h2>
       <p  class="fs-4 mx-4"> <span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}</span></p>
       <p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
-
+      <p role="button" v-if="propietario" class="pt-3 text-center" @click="eliminar(proyecto.id)">
+        <span class="pb-1 text-danger">Eliminar proyecto</span>
+        <span  class="bi bi-x-octagon fs-4 text-danger mx-3"></span>
+      </p>
     </div>
     <div>
       <ListadoTareas v-if="renderComponent" :propietario="propietario" @componenteCreado="componenteCreado"/>
      </div>
-
   </main>
   <ButtonNewTask v-if="propietario" @componenteCreado="componenteCreado" />
 </template>
@@ -20,6 +23,7 @@
 <script>
 
 import ListadoTareas from "../components/listadoTareas.vue";
+import Navbar from "@/components/navbar.vue";
 import {useRoute} from "vue-router";
 import axios from "axios";
 import API from "@/routes/API";
@@ -53,7 +57,8 @@ export default {
   },
   components: {
     ListadoTareas,
-    ButtonNewTask
+    ButtonNewTask,
+    Navbar
   },
   methods:{
     getUser (idUser){
@@ -67,7 +72,18 @@ export default {
         // Añade el componente de nuevo
         this.renderComponent = true;
       });
-    }
+    },
+    eliminar(idProject){
+      axios.delete(API + '/proyectos/'+ idProject)
+          .then(response => {
+            if(response.status==200){
+              this.$router.push("/proyectos");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
   }
 
 }
