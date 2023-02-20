@@ -1,17 +1,17 @@
 <template >
-  <div class="mt-5">
+  <div class="mt-5 ">
   <h2 class="my-4  display-4">Listado de tareas:</h2>
   <div v-if="msg !==''" class="p-3 mb-2" style="background-color: #C6EDE2">{{ this.msg }}</div>
 
   <h3 v-if="tareas.length === 0 && propietario" class="my-4 fs-3"> Aún no has creado tareas</h3>
-    <h3 v-if="tareas.length === 0 && !propietario" class="my-4 fs-3"> Aún no se te han asignado tareas</h3>
+  <h3 v-if="tareas.length === 0 && !propietario" class="my-4 fs-3"> Aún no se te han asignado tareas</h3>
 
   <table v-if="tareas.length !==0" class="table">
     <thead class="table-light fs-5 fw-bold">
     <tr class=" proyects-card">
       <th scope="col w-25" style="width: 40%;">Título
       <button type="button" class="btn" @click="sorteBy('descripcion')">
-        <i :class="{'bi bi-sort-down' : isSortedAsc.descripcion===false,
+        <i :class="{'bi bi-sort-down'     : isSortedAsc.descripcion===false,
                     'bi bi-sort-down-alt' : isSortedAsc.descripcion}">
         </i>
       </button>
@@ -20,7 +20,7 @@
       <th scope="col" style="width: 20%">Entrega
         <button type="button" class="btn" @click="sorteBy('fecha_entrega')">
           <i :class="{
-                'bi bi-sort-down' : isSortedAsc.fecha_entrega===false,
+                'bi bi-sort-down'     : isSortedAsc.fecha_entrega===false,
                 'bi bi-sort-down-alt' : isSortedAsc.fecha_entrega
               }">
           </i>
@@ -29,7 +29,7 @@
       <th scope="col" style="width: 20%" >Estado
         <button type="button" class="btn" @click="sorteBy('estado')">
           <i :class="{
-                'bi bi-sort-down' : isSortedAsc.estado===false,
+                'bi bi-sort-down'     : isSortedAsc.estado===false,
                 'bi bi-sort-down-alt' : isSortedAsc.estado
               }">
           </i>
@@ -38,7 +38,7 @@
       <th scope="col" style="width: 20%">Asignada a
         <button type="button" class="btn" @click="sorteBy('nameUserAsigned')">
           <i :class="{
-                'bi bi-sort-down' : isSortedAsc.nameUserAsigned===false,
+                'bi bi-sort-down'     : isSortedAsc.nameUserAsigned===false,
                 'bi bi-sort-down-alt' : isSortedAsc.nameUserAsigned
               }">
           </i>
@@ -57,24 +57,22 @@
             <div class="d-flex justify-content-start align-items-center">
               <div class="status-indicator mb-1 me-2"
                   :class="{
-                    'status-indicator-todo': todo.estado === 'no-empezado',
-                    'status-indicator-ongoing': todo.estado === 'en-proceso',
-                    'status-indicator-finished': todo.estado === 'terminada',}">
+                    'status-indicator-todo'     : todo.estado === 'no-empezado',
+                    'status-indicator-ongoing'  : todo.estado === 'en-proceso',
+                    'status-indicator-finished' : todo.estado === 'terminada',}">
               </div>
               <div class="status-text"
                   @click="changeStatus(todo.id, todo.estado)"
                   :class="{
-                      'status-text-todo': todo.estado === 'no-empezado',
-                      'status-text-ongoing': todo.estado === 'en-proceso',
+                      'status-text-todo'    : todo.estado === 'no-empezado',
+                      'status-text-ongoing' : todo.estado === 'en-proceso',
                       'status-text-finished': todo.estado === 'terminada',}">
                 <p class="fs-5">{{ todo.estado }}</p>
               </div>
             </div>
           </td>
           <td class="pt-3 fs-5">{{ todo.nameUserAsigned}}</td>
-
           <td v-if="propietario" class="pt-3"><a @click="eliminar(todo.id)" class="bi bi-x-octagon fs-4 status-text-todo"></a></td>
-
         </tr>
     </tbody>
   </table>
@@ -84,6 +82,7 @@
         class="d-flex flex-wrap mt-5 justify-content-center"
     />
   </div>
+
 </template>
 
 
@@ -126,14 +125,14 @@ export default {
   },
   data(){
     return {
-      data:{},
-      pagination: {},
-      tareas : [],
-      usuarios: usuariosData,
-      todoStatus: ["no-empezado", "en-proceso", "terminada"],
-      isSortedAsc:{"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
-      esCreador: false,
-      msg: ""
+      data        : {},
+      pagination  : {},
+      tareas      : [],
+      usuarios    : usuariosData,
+      todoStatus  : ["no-empezado", "en-proceso", "terminada"],
+      isSortedAsc : {"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
+      esCreador   : false,
+      msg         : ""
 
     }
   },
@@ -145,14 +144,14 @@ export default {
 
     axios.get(API + '/tareas?proyecto='+ route.params.id)
         .then(response => {
-          this.data = response.data
+          this.data       = response.data
           this.pagination = response.data.pagination
           response.data.content.map(tarea =>{
-            if(this.propietario){
+            if(this.propietario)
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
-            }else if(esUsuarioRegistrado(tarea.asignada_a)){
+            else if(esUsuarioRegistrado(tarea.asignada_a))
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
-            }
+
           })
         })
         .catch(error => {
@@ -196,7 +195,7 @@ export default {
     gotoPage(page) {
       axios.get(page)
           .then(response => {
-            this.proyectos = response.data.content;
+            this.proyectos  = response.data.content;
             this.pagination = response.data.pagination;
           })
           .catch(error => {

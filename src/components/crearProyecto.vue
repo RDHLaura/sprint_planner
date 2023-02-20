@@ -87,12 +87,12 @@ export default {
       this.$forceUpdate();
     },
     titulo(value){
-      this.titulo = value;
+      this.titulo     = value;
       this.msg.titulo = validName(value)
     },
     descripcion(value){
-      this.descripcion = value;
-      this.msg.descripcion = validDescription(value)
+      this.descripcion      = value;
+      this.msg.descripcion  = validDescription(value)
     }
 
   },
@@ -117,7 +117,7 @@ export default {
       //se comprueba que los campos no vayan vacios
       this.msg.titulo       = this.msg.titulo       || isEmpty(this.titulo);
       this.msg.descripcion  = this.msg.descripcion  || isEmpty(this.descripcion)
-      this.msg.miembros     = (this.team.length ==0)? "Debe tener formar su equipo antes de crear el proyecto." : "";
+      this.msg.miembros     = (this.team.length ==0)? "Debe formar su equipo antes de crear el proyecto." : "";
 
       if(Object.values(this.msg).every((err)=> err.length===0)){
         axios.post(API +"/proyectos", {

@@ -42,35 +42,33 @@ export default {
   },
   data() {
     return {
-      email: "",
-      password: "",
+      email    : "",
+      password : "",
       msg: {
-        email: "",
+        email   : "",
         password: "",
       },
     };
   },
   watch: {
     email(value){
-      this.email = value;
+      this.email     = value;
       this.msg.email = validEmail(value)
     },
     password(value){
-      this.password = value;
+      this.password     = value;
       this.msg.password = validPassword(value);
     }
   },
   methods: {
     submitForm() {
       //se comprueba que los campos no vayan vacios
-      this.msg.email = this.msg.email || isEmpty(this.email);
+      this.msg.email    = this.msg.email || isEmpty(this.email);
       this.msg.password = this.msg.password || isEmpty(this.password);
 
       if(Object.values(this.msg).every((err)=> err.length===0)){
         this.$router.push("/proyectos");
-
       }
-
     },
 
   }

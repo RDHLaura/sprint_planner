@@ -4,7 +4,7 @@
     <CrearProyecto class="square border border-secondary" v-if="showSquare" />
     <button id="toggle-square" @click="toggleSquare">
       <i v-if="!showSquare" class="bi bi-plus-square"></i>
-      <i v-if="showSquare" class="bi bi-x-square"></i>
+      <i v-if="showSquare"  class="bi bi-x-square"></i>
     </button>
   </div>
 </template>

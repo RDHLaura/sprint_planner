@@ -55,7 +55,7 @@ export default {
   data(){
     return {
       proyectos : [],
-      usuarios: usuariosData,
+      usuarios  : usuariosData,
       pagination: {}
     }
   },
@@ -65,7 +65,7 @@ export default {
   mounted() {
     axios.get(API + '/proyectos/?user='+ getUserID())
         .then(response => {
-          this.proyectos = response.data.content;
+          this.proyectos  = response.data.content;
           this.pagination = response.data.pagination
         })
         .catch(error => {
@@ -80,7 +80,7 @@ export default {
     gotoPage(page) {
       axios.get(page)
         .then(response => {
-          this.proyectos = response.data.content;
+          this.proyectos  = response.data.content;
           this.pagination = response.data.pagination;
         })
         .catch(error => {

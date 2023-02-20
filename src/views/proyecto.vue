@@ -8,10 +8,20 @@
       <h2 class="h3 mb-3 fw-bold">Participantes:</h2>
       <p  class="fs-4 mx-4"> <span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}</span></p>
       <p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
-      <p role="button" v-if="propietario" class="pt-3 text-center" @click="eliminar(proyecto.id)">
-        <span class="pb-1 text-danger">Eliminar proyecto</span>
-        <span  class="bi bi-x-octagon fs-4 text-danger mx-3"></span>
-      </p>
+
+      <!--Botón de eliminar proyecto -->
+      <div class="d-flex flex-column justify-content-center text-center">
+        <p role="button" class="pt-3 text-center" @click="showConfirmation = true" >
+          <span class="pb-1 text-danger">Eliminar proyecto</span>
+          <span  class="bi bi-x-octagon fs-4 text-danger mx-3"></span>
+        </p>
+        <div role="button" v-if="showConfirmation" class="confirmation pt-3 text-center">
+          <p>¿Está seguro que desea eliminar este proyecto?</p>
+          <button class="btn btn-outline-secondary m-2 " @click="eliminar(proyecto.id)">Sí</button>
+          <button class="btn btn-outline-secondary m-2 " @click="showConfirmation = false">No</button>
+        </div>
+      </div>
+
     </div>
     <div>
       <ListadoTareas v-if="renderComponent" :propietario="propietario" @componenteCreado="componenteCreado"/>
@@ -47,19 +57,20 @@ export default {
   name: "proyecto",
   data(){
     return{
-      proyecto: {},
-      usuarios: usuariosData,
-      creador: null,
-      renderComponent: false,
-      propietario: null
+      proyecto          : {},
+      usuarios          : usuariosData,
+      creador           : null,
+      renderComponent   : false,
+      propietario       : null,
+      showConfirmation  : false
     }
   },
   mounted() {
     const route = useRoute()
     axios.get(API + '/proyectos/'+ route.params.id)
       .then(response => {
-        this.proyecto= response.data;
-        this.creador = this.usuarios[this.proyecto.creador].username
+        this.proyecto    = response.data;
+        this.creador     = this.usuarios[this.proyecto.creador].username
         this.propietario = esCreador(this.proyecto.creador);
         this.componenteCreado()
       })

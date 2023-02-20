@@ -110,7 +110,8 @@ export default {
   },
   mounted() {
     const route = useRoute();
-    const urlAPI = API + '/proyectos/'+ route.params.id
+    const urlAPI = API + '/proyectos/'+ route.params.id;
+
     axios.get(urlAPI).then(response => {
         this.proyecto = response.data;
         console.log(response.status)

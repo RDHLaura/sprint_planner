@@ -29,14 +29,14 @@
   export default {
     props: {
       pagination:{
-        type: Object,
-        required: true
+        type      : Object,
+        required  : true
       },
     },
     data(){
       return {
-        prevPageUrl: null,
-        nextPageUrl: null
+        prevPageUrl : null,
+        nextPageUrl : null
       }
     },
     methods: {

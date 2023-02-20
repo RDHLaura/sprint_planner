@@ -15,20 +15,12 @@ export const validPasswordCheck = (pw, pw_check)=>{
 
 export function validName (value){
   let difference = 6 - value.length;
-  if (value.length<6) {
-    return 'Debe tener al menos 6 caracteres! '+ difference + ' caracteres restantes' ;
-  } else {
-    return '';
-  }
+  return (value.length<6) ? 'Debe tener al menos 6 caracteres! '+ difference + ' caracteres restantes' : '';
 }
 
 export function validDescription (value){
   let difference = 12 - value.length;
-  if (value.length<12) {
-    return 'Debe tener al menos 12 caracteres! '+ difference + ' caracteres restantes' ;
-  } else {
-    return '';
-  }
+  return (value.length<12) ? 'Debe tener al menos 12 caracteres! '+ difference + ' caracteres restantes' : ""
 }
 
 

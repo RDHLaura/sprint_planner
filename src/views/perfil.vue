@@ -14,7 +14,7 @@
             <p class="fs-4 mx-4">{{ user.username }}</p>
             <h2 class="h3 mb-3 fw-bold">Email:</h2>
             <p  class="fs-4 mx-4">{{ user.email }} </p>
-            <h2 class="h3 mb-3 fw-bold">Email:</h2>
+            <h2 class="h3 mb-3 fw-bold">Github:</h2>
             <p  class="fs-4 mx-4">{{ user.github_username }} </p>
           </div>
         </div>
@@ -45,9 +45,9 @@ export default {
   },
   data(){
     return{
-      image: image,
-      usuarios: usuariosData,
-      user: {},
+      image     : image,
+      usuarios  : usuariosData,
+      user      : {},
     }
   },
   mounted() {

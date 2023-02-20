@@ -1,14 +1,11 @@
 <script setup>
 import { RouterView } from 'vue-router';
-
 </script>
 
 <template >
-
   <main class="main">
     <RouterView />
   </main>
-
 </template>
 
 <style scoped>
@@ -16,8 +13,4 @@ import { RouterView } from 'vue-router';
   padding: 0 2rem;
   height: 90vh;
 }
-
-
-
-
 </style>

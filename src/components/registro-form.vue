@@ -62,16 +62,16 @@ export default {
   },
   data() {
     return {
-      nombre: "",
-      email: "",
-      userGithub: "",
-      password: "",
-      checkpassword: "",
+      nombre        : "",
+      email         : "",
+      userGithub    : "",
+      password      : "",
+      checkpassword : "",
       msg: {
-        nombre: "",
-        email: "",
-        password: "",
-        checkpassword: "",
+        nombre        : "",
+        email         : "",
+        password      : "",
+        checkpassword : "",
       },
     };
   },
@@ -89,7 +89,7 @@ export default {
       this.msg.checkpassword  = validPasswordCheck(this.password, value)
     },
     nombre(value){
-      this.nombre = value;
+      this.nombre     = value;
       this.msg.nombre = validName(value) || isEmpty(value)
     }
   },

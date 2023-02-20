@@ -55,8 +55,8 @@ export default {
   name: "crearEquipo",
   data(){
     return{
-      users: usersData,
-      searchTerm: ''
+      users       : usersData,
+      searchTerm  : ''
     }
   },
   props: {

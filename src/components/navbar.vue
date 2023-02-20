@@ -10,9 +10,6 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav d-flex  mb-2 mb-lg-0 mx-5">
           <li class="nav-item mx-2">
-            <router-link to="/contacto" class="nav-link fs-4">Contacto </router-link>
-          </li>
-          <li class="nav-item mx-2">
             <router-link to="/perfil" class="nav-link fs-4">Perfil </router-link>
           </li>
         </ul>
