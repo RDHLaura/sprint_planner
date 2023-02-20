@@ -90,9 +90,7 @@ export default {
       this.team = this.team.filter((usr)=> usr.id != user.id )
     },
     submitForm() {
-      //compruebo que se haya creado el equipo
-      if(this.team.length ==0)
-        this.msg.miembros = "Debe tener formar su equipo antes de crear el proyecto."
+
 
       //almaceno los miembros del equipo en el formulario que se enviará a la API
       this.team.map(member =>{
@@ -102,7 +100,7 @@ export default {
       //se comprueba que los campos no vayan vacios
       this.msg.titulo       = this.msg.titulo       || isEmpty(this.titulo);
       this.msg.descripcion  = this.msg.descripcion  || isEmpty(this.descripcion)
-      this.msg.miembros     = this.msg.miembros;
+      this.msg.miembros     = (this.team.length ==0)? "Debe tener formar su equipo antes de crear el proyecto." : "";
 
       console.log("entra")
 
