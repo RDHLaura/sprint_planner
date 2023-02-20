@@ -18,10 +18,23 @@
 </template>
 
 <script>
+
+/**
+ * @file index.vue - Página de inicio
+ * @author Laura Rodríguez
+ */
+
+
+
 import RegistroForm from "../components/registro-form.vue";
 import LoginForm from "../components/login-form.vue";
 import image from "../assets/19719.jpg"
 
+/**
+ * @vue-data {Boolean}[estaRegistrado = false] - Controla si aparece el formulario de login o de registro
+ * @vue-data {image}[submitted = false] - Maneja el submit del formulario
+ * @vue-event isRegistered - Si el usuario está registrado muestra el formulario de login o de registro en caso contrario
+ */
 export default {
   name: 'IndexPage',
   data(){

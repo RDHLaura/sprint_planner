@@ -20,15 +20,20 @@
     </div>
   </nav>
 </template>
+
+
 <script>
-
-
 export default {
   name: "Navbar",
+  data(){
+    return{
+      displayMessage: false,
+    }
+  },
   methods:{
     gotoDashboard(){
       this.$router.push("/proyectos");
-    }
+    },
   }
 }
 </script>
@@ -38,4 +43,5 @@ export default {
   top: 0;
   z-index: 10;
 }
+
 </style>

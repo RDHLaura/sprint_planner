@@ -10,9 +10,18 @@
 </template>
 
 <script>
-import CrearProyecto from "./crearProyecto.vue"
-export default {
+/**
+ * @file button_newProject.vue - Botón que abre la vista de creación de proyecto
+ * @author Laura Rodríguez
+ */
 
+import CrearProyecto from "./crearProyecto.vue"
+
+/**
+ * @vue-data {Boolean}[showSquare = false] - Almacena true o false si el componente CrearProyecto esta visible
+ * @vue-event toggleSquare - cambia el valor a showSquare
+ */
+export default {
   data() {
     return {
       showSquare: false,

@@ -19,10 +19,17 @@
 </template>
 
 <script>
+/**
+ * @file contacto.vue - Vista de la página de contacto
+ * @author Laura Rodríguez
+ */
 
 import Navbar from "../components/navbar.vue";
 import image from "../assets/19719.jpg"
-export default {
+/**
+ * @vue-data {image}[image = image] - Almacena una imagen que se muestra en la vista
+ */
+ export default {
   name: 'contacto',
   components: {
     Navbar

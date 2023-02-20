@@ -41,6 +41,7 @@
     },
     methods: {
       gotoPage(pagina) {
+        console.log(this.pagination)
         // Emitimos un evento al componente padre con la URL de la página a la que el usuario quiere ir
         this.$emit('go-to-page', pagina);
       }

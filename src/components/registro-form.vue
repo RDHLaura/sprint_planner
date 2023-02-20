@@ -26,7 +26,10 @@
 </template>
 
 <script>
-
+/**
+ * @file registro-form.vue - Formulario de registro
+ * @author Laura Rodríguez
+ */
 import {
   validEmail,
   validPassword,
@@ -35,6 +38,22 @@ import {
   validName
 } from "@/utils/validations";
 
+/**
+ * @vue-prop {Function} isRegistered
+ *
+ * @vue-data {String}[nombre = ""] - Nombre del usuario
+ * @vue-data {String}[email = ""] - Email del usuario
+ * @vue-data {String}[userGithub = ""] - userGithub del usuario
+ * @vue-data {String}[password = ""] - password
+ * @vue-data {String}[checkpassword = ""] - checkpassword
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event email - valida el input del email
+ * @vue-event password - valida el input del password
+ * @vue-event checkpassword - valida que la segunda vez que se mete la contraseña coincida con la primera
+ * @vue-event nombre - valida el input del nombre
+ * @vue-event submitForm - si los datos del formulario son correctos envia a la pág Dashboard
+ */
 export default {
   props:{
     isRegistered:{

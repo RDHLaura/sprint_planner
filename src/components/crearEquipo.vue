@@ -34,8 +34,23 @@
 </template>
 
 <script>
+/**
+ * @file crearEquipo.vue - Vista de creación del Equipo
+ * @author Laura Rodríguez
+ */
 
 import usersData from "../database/usuarios.json";
+
+/**
+ * @vue-data {String}[searchTerm = ''] - Almacena la búsqueda que filtra entre los usuarios registrador
+ * @vue-data {Object}[users = usuariosData] - Almacena los datos de los usuarios registrados.
+ *
+ * @vue-prop {Array} team - Array con los ids de los miembros del equipo del proyecto
+ * @vue-prop {Function} addToTeam - Añade un id al team
+ * @vue-prop {Function} removeToTeam - Elimina un id del team
+ *
+ * @vue-computed {Object} filteredUsers - filtra los usuarios por el input almacenado en searchTerm
+ */
 export default {
   name: "crearEquipo",
   data(){

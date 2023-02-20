@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/listadoProyectos.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/listadoProyectos.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template >
+    &lt;div >
+      &lt;div v-if="proyectos.length === 0" class="rounded p-3 mb-2 fs-3 bg-danger-subtle bg-opacity-50 ">
+        La API está cargando, esto puede llevar un par de minutos...
+      &lt;/div>
+      &lt;div v-if="proyectos.length > 0" class="d-flex flex-wrap mt-5 justify-content-center w-100 h-75">
+        &lt;div class="card proyects-card m-2 mw-25" v-for="proyecto in proyectos" :key="proyecto.id">
+          &lt;router-link :to="{name: 'proyecto', params: { id: proyecto.id }}" class="col">
+            &lt;div class="card-header fw-bold fs-4" style="color: #454545 !important; background: #C6EDE2">
+              {{ upper(proyecto.titulo) }}
+            &lt;/div>
+            &lt;div class="card-body">
+              &lt;blockquote class="blockquote mb-0 mt-4">
+                &lt;p class="fs-4" style="color: #454545 !important; ">{{ proyecto.descripcion }}&lt;/p>
+                &lt;footer class="blockquote-footer mt-3 fs-5">Creador: &lt;cite title="Título de la fuente">{{ getUser(proyecto.creador) }}&lt;/cite>&lt;/footer>
+              &lt;/blockquote>
+            &lt;/div>
+          &lt;/router-link>
+        &lt;/div>
+      &lt;/div>
+      &lt;pagination
+          :pagination="pagination"
+          @go-to-page="gotoPage"
+          class="d-flex flex-wrap my-5 justify-content-center"
+      />
+    &lt;/div>
+&lt;/template>
+
+
+&lt;script>
+/**
+ * @file listadoProyectos.vue - Lista los proyectos obtenidos desde la API
+ * @author Laura Rodríguez
+ */
+
+import usuariosData from "../database/usuarios.json";
+import axios from "axios";
+import API from "@/routes/API";
+import pagination from "@/components/pagination.vue";
+import {getUserID} from "@/utils/login";
+
+/**
+ * @vue-data {Array} proyectos - Array que almacena los proyectos creados por el usuario o en los que participa
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {Object}[pagination = {}] - Almacena los datos de la paginación devuelta por la API.
+ *
+ * @vue-mounted - hace la petición a la API de los proyectos
+ * @vue-event getUser - Devuelve el nombre de usuario del usuario registrado
+ * @vue-event gotoPage - pide los proyectos de la siguiente página a la API
+ * @vue-event upper - Para poner en mayúscula el título del proyecto
+ */
+export default {
+  name: "listadoProyectos",
+
+  data(){
+    return {
+      proyectos : [],
+      usuarios: usuariosData,
+      pagination: {}
+    }
+  },
+  components:{
+    pagination
+  },
+  mounted() {
+    axios.get(API + '/proyectos/?user='+ getUserID())
+        .then(response => {
+          this.proyectos = response.data.content;
+          this.pagination = response.data.pagination
+        })
+        .catch(error => {
+          console.log(error);
+        });
+  },
+  methods: {
+    getUser (idUser){
+      const user = this.usuarios[idUser]
+      return user.username;
+    },
+    gotoPage(page) {
+      axios.get(page)
+        .then(response => {
+          this.proyectos = response.data.content;
+          this.pagination = response.data.pagination;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    },
+    upper(title){
+      return title.toUpperCase()
+    }
+  }
+}
+
+&lt;/script>
+
+&lt;style scoped>
+
+.proyects-card {
+  align-items: center;
+  text-align: center;
+  width: 17rem;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

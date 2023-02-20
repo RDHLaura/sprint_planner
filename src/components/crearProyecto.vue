@@ -42,10 +42,28 @@
 </template>
 
 <script>
+/**
+ * @file crearProyecto.vue - Vista de creación del Proyecto
+ * @author Laura Rodríguez
+ */
+
 import CrearEquipo from "@/components/crearEquipo.vue";
 import axios from "axios";
 import API from "@/routes/API";
 import {isEmpty, validDescription,  validName} from "@/utils/validations";
+
+/**
+ * @vue-data {Array} team - Array con los ids de los miembros del equipo del proyecto
+ * @vue-data {String}[titulo = ""] - Título del proyecto
+ * @vue-data {String}[descripcion = ""] - Descripcion del proyecto
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event titulo - valida el input del título
+ * @vue-event descripcion - valida el input de la descripción
+ * @vue-event addToTeam - añade un usuario al equipo
+ * @vue-event removeToTeam - elimina un usuario al equipo
+ * @vue-event submitForm - envia una petición post a la API con los datos del nuevo proyecto
+ */
 export default {
   data() {
     return {
@@ -91,7 +109,6 @@ export default {
     },
     submitForm() {
 
-
       //almaceno los miembros del equipo en el formulario que se enviará a la API
       this.team.map(member =>{
         this.miembros.push(member.id)
@@ -102,8 +119,6 @@ export default {
       this.msg.descripcion  = this.msg.descripcion  || isEmpty(this.descripcion)
       this.msg.miembros     = (this.team.length ==0)? "Debe tener formar su equipo antes de crear el proyecto." : "";
 
-      console.log("entra")
-
       if(Object.values(this.msg).every((err)=> err.length===0)){
         axios.post(API +"/proyectos", {
           titulo      : this.titulo,
@@ -111,12 +126,14 @@ export default {
           miembros    : this.miembros,
           creador     : 1
         }).then((result) => {
-          if(result.status == 200)
-            this.$router.push({
-              name: 'proyecto',
-              params: { id: result.data.createdProyect.id }
-            })
-        });
+            if(result.status == 200)
+              this.$router.push({name   : 'proyecto',
+                                params  : { id: result.data.createdProyect.id }
+              })
+            console.log(result.status)
+          }).catch(error => {
+            console.log(error);
+          });
       }
     },
   }
@@ -124,11 +141,10 @@ export default {
 </script>
 
 <style scoped>
-
-ul li {
-  list-style: none;
-}
-span, input, textarea{
-  font-size: 1rem !important;
-}
+  ul li {
+    list-style: none;
+  }
+  span, input, textarea{
+    font-size: 1rem !important;
+  }
 </style>

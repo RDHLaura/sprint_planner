@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/proyecto.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/proyecto.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template >
+  &lt;Navbar />
+  &lt;main class="container w-75 vh-100" >
+    &lt;h1 class="display-3 text-center fw-semibold mb-4" style="color: #454545 !important;">{{ proyecto.titulo }}&lt;/h1>
+    &lt;div class="bg-light m-3 px-5 py-4 rounded">
+      &lt;h2 class="h3 mb-3 fw-bold">Descripción del proyecto:&lt;/h2>
+      &lt;p class="fs-4 mx-4">{{ proyecto.descripcion }}&lt;/p>
+      &lt;h2 class="h3 mb-3 fw-bold">Participantes:&lt;/h2>
+      &lt;p  class="fs-4 mx-4"> &lt;span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}&lt;/span>&lt;/p>
+      &lt;p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: &lt;span class="mx-3 ">{{ this.creador }}&lt;/span>&lt;/p>
+      &lt;p role="button" v-if="propietario" class="pt-3 text-center" @click="eliminar(proyecto.id)">
+        &lt;span class="pb-1 text-danger">Eliminar proyecto&lt;/span>
+        &lt;span  class="bi bi-x-octagon fs-4 text-danger mx-3">&lt;/span>
+      &lt;/p>
+    &lt;/div>
+    &lt;div>
+      &lt;ListadoTareas v-if="renderComponent" :propietario="propietario" @componenteCreado="componenteCreado"/>
+     &lt;/div>
+  &lt;/main>
+  &lt;ButtonNewTask v-if="propietario" @componenteCreado="componenteCreado" />
+&lt;/template>
+
+&lt;script>
+/**
+ * @file proyecto.vue - Vista del proyecto
+ * @author Laura Rodríguez
+ */
+
+import ListadoTareas from "../components/listadoTareas.vue";
+import Navbar from "@/components/navbar.vue";
+import {useRoute} from "vue-router";
+import axios from "axios";
+import API from "@/routes/API";
+import usuariosData from "../database/usuarios.json";
+import ButtonNewTask from "../components/button_newTask.vue"
+import { esCreador } from "@/utils/login";
+
+/**
+ * @vue-data {Object}[proyecto = {}] - Almacena los datos del proyecto obtenidos de la API
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {null}[creador = null] - Almacena el nombre del creador del proyecto
+ * @vue-data {Boolean}[creador = null] - Indica si el usuario logueado es el creador del proyecto
+ * @vue-event {Number} getUser - devuelve el id del usuario logueado
+ * @vue-event eliminar - Elimina el proyecto actual
+ */
+export default {
+  name: "proyecto",
+  data(){
+    return{
+      proyecto: {},
+      usuarios: usuariosData,
+      creador: null,
+      renderComponent: false,
+      propietario: null
+    }
+  },
+  mounted() {
+    const route = useRoute()
+    axios.get(API + '/proyectos/'+ route.params.id)
+      .then(response => {
+        this.proyecto= response.data;
+        this.creador = this.usuarios[this.proyecto.creador].username
+        this.propietario = esCreador(this.proyecto.creador);
+        this.componenteCreado()
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  components: {
+    ListadoTareas,
+    ButtonNewTask,
+    Navbar
+  },
+  methods:{
+    getUser (idUser){
+      return  this.usuarios[idUser].username
+    },
+    async componenteCreado(){
+      //elimina el componente del dom
+      this.renderComponent = false;
+
+      await this.$nextTick(() => {
+        // Añade el componente de nuevo
+        this.renderComponent = true;
+      });
+    },
+    eliminar(idProject){
+      axios.delete(API + '/proyectos/'+ idProject)
+          .then(response => {
+            if(response.status==200){
+              this.$router.push("/proyectos");
+            }
+            console.log(response.status)
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+  }
+
+}
+
+&lt;/script>
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

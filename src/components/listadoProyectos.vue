@@ -28,14 +28,30 @@
 
 
 <script>
+/**
+ * @file listadoProyectos.vue - Lista los proyectos obtenidos desde la API
+ * @author Laura Rodríguez
+ */
 
 import usuariosData from "../database/usuarios.json";
 import axios from "axios";
 import API from "@/routes/API";
 import pagination from "@/components/pagination.vue";
 import {getUserID} from "@/utils/login";
+
+/**
+ * @vue-data {Array} proyectos - Array que almacena los proyectos creados por el usuario o en los que participa
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {Object}[pagination = {}] - Almacena los datos de la paginación devuelta por la API.
+ *
+ * @vue-mounted - hace la petición a la API de los proyectos
+ * @vue-event getUser - Devuelve el nombre de usuario del usuario registrado
+ * @vue-event gotoPage - pide los proyectos de la siguiente página a la API
+ * @vue-event upper - Para poner en mayúscula el título del proyecto
+ */
 export default {
   name: "listadoProyectos",
+
   data(){
     return {
       proyectos : [],
@@ -70,6 +86,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
     },
     upper(title){
       return title.toUpperCase()

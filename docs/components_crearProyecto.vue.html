@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/crearProyecto.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/crearProyecto.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;div class="text-center  ">
+    &lt;div class="mt-5">
+    &lt;h2 class="display-4 m-5">Nuevo proyecto&lt;/h2>
+
+    &lt;form class="d-flex flex-column  align-items-center gap-3" novalidate @submit.prevent="submitForm">
+      &lt;div class="mb-3 w-50">
+        &lt;div class="input-group input-group-sm  ">
+          &lt;span class="input-group-text px-3" id="inputGroup-sizing-sm" style="width: 7rem;">Título proyecto&lt;/span>
+          &lt;input v-model="titulo" type="text" class="form-control" id="titulo">
+        &lt;/div>
+        &lt;span class="mb-3 mt-0" v-if="msg.titulo">{{msg.titulo}}&lt;/span>
+      &lt;/div>
+
+      &lt;div class="mb-3 w-50">
+        &lt;div class="input-group input-group-sm">
+          &lt;span class="input-group-text px-3" style="width: 7rem;">Descripción&lt;/span>
+          &lt;textarea v-model="descripcion" id="descripcion" class="form-control">&lt;/textarea>
+        &lt;/div>
+        &lt;span v-if="msg.descripcion">{{msg.descripcion}}&lt;/span>
+      &lt;/div>
+
+      &lt;!--botones-->
+      &lt;div class="m-3 mb-5">
+        &lt;a class="btn btn-outline-secondary m-2 " data-bs-toggle="collapse" href="#crearEquipo" role="button" aria-expanded="false" aria-controls="collapseExample">
+          Crear equipo
+        &lt;/a>
+        &lt;input type="submit" class="btn btn-outline-secondary m-2" value="Guardar" />
+        &lt;p v-if="msg.miembros">{{msg.miembros}}&lt;/p>
+      &lt;/div>
+    &lt;/form>
+
+    &lt;!--Crear Equipo-->
+    &lt;CrearEquipo
+        :addToTeam="addToTeam"
+        :removeToTeam="removeToTeam"
+        :team="team"
+        class="mt-5"
+    />
+    &lt;/div>
+  &lt;/div>
+&lt;/template>
+
+&lt;script>
+/**
+ * @file crearProyecto.vue - Vista de creación del Proyecto
+ * @author Laura Rodríguez
+ */
+
+import CrearEquipo from "@/components/crearEquipo.vue";
+import axios from "axios";
+import API from "@/routes/API";
+import {isEmpty, validDescription,  validName} from "@/utils/validations";
+
+/**
+ * @vue-data {Array} team - Array con los ids de los miembros del equipo del proyecto
+ * @vue-data {String}[titulo = ""] - Título del proyecto
+ * @vue-data {String}[descripcion = ""] - Descripcion del proyecto
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event titulo - valida el input del título
+ * @vue-event descripcion - valida el input de la descripción
+ * @vue-event addToTeam - añade un usuario al equipo
+ * @vue-event removeToTeam - elimina un usuario al equipo
+ * @vue-event submitForm - envia una petición post a la API con los datos del nuevo proyecto
+ */
+export default {
+  data() {
+    return {
+      team: [],
+      titulo      : "",
+      descripcion : "",
+      miembros    : [],
+      msg: {
+        titulo      : "",
+        descripcion : "",
+        miembros    : "",
+      },
+      newProyect: {}
+    };
+  },
+  components:{
+    CrearEquipo
+  },
+  watch: {
+    team() {
+      this.$forceUpdate();
+    },
+    titulo(value){
+      this.titulo = value;
+      this.msg.titulo = validName(value)
+    },
+    descripcion(value){
+      this.descripcion = value;
+      this.msg.descripcion = validDescription(value)
+    }
+
+  },
+  methods: {
+    addToTeam(user) {
+      if( this.team.includes(user))
+        return false
+      this.team.push(user);
+    },
+    removeToTeam(user) {
+      if( !this.team.includes(user))
+        return false
+      this.team = this.team.filter((usr)=> usr.id != user.id )
+    },
+    submitForm() {
+
+      //almaceno los miembros del equipo en el formulario que se enviará a la API
+      this.team.map(member =>{
+        this.miembros.push(member.id)
+      })
+
+      //se comprueba que los campos no vayan vacios
+      this.msg.titulo       = this.msg.titulo       || isEmpty(this.titulo);
+      this.msg.descripcion  = this.msg.descripcion  || isEmpty(this.descripcion)
+      this.msg.miembros     = (this.team.length ==0)? "Debe tener formar su equipo antes de crear el proyecto." : "";
+
+      if(Object.values(this.msg).every((err)=> err.length===0)){
+        axios.post(API +"/proyectos", {
+          titulo      : this.titulo,
+          descripcion : this.descripcion,
+          miembros    : this.miembros,
+          creador     : 1
+        }).then((result) => {
+            if(result.status == 200)
+              this.$router.push({name   : 'proyecto',
+                                params  : { id: result.data.createdProyect.id }
+              })
+            console.log(result.status)
+          }).catch(error => {
+            console.log(error);
+          });
+      }
+    },
+  }
+};
+&lt;/script>
+
+&lt;style scoped>
+  ul li {
+    list-style: none;
+  }
+  span, input, textarea{
+    font-size: 1rem !important;
+  }
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/listadoTareas.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/listadoTareas.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template >
+  &lt;div class="mt-5">
+  &lt;h2 class="my-4  display-4">Listado de tareas:&lt;/h2>
+  &lt;div v-if="msg !==''" class="p-3 mb-2" style="background-color: #C6EDE2">{{ this.msg }}&lt;/div>
+
+  &lt;h3 v-if="tareas.length === 0 &amp;&amp; propietario" class="my-4 fs-3"> Aún no has creado tareas&lt;/h3>
+    &lt;h3 v-if="tareas.length === 0 &amp;&amp; !propietario" class="my-4 fs-3"> Aún no se te han asignado tareas&lt;/h3>
+
+  &lt;table v-if="tareas.length !==0" class="table">
+    &lt;thead class="table-light fs-5 fw-bold">
+    &lt;tr class=" proyects-card">
+      &lt;th scope="col w-25" style="width: 40%;">Título
+      &lt;button type="button" class="btn" @click="sorteBy('descripcion')">
+        &lt;i :class="{'bi bi-sort-down' : isSortedAsc.descripcion===false,
+                    'bi bi-sort-down-alt' : isSortedAsc.descripcion}">
+        &lt;/i>
+      &lt;/button>
+      &lt;/th>
+
+      &lt;th scope="col" style="width: 20%">Entrega
+        &lt;button type="button" class="btn" @click="sorteBy('fecha_entrega')">
+          &lt;i :class="{
+                'bi bi-sort-down' : isSortedAsc.fecha_entrega===false,
+                'bi bi-sort-down-alt' : isSortedAsc.fecha_entrega
+              }">
+          &lt;/i>
+        &lt;/button>
+      &lt;/th>
+      &lt;th scope="col" style="width: 20%" >Estado
+        &lt;button type="button" class="btn" @click="sorteBy('estado')">
+          &lt;i :class="{
+                'bi bi-sort-down' : isSortedAsc.estado===false,
+                'bi bi-sort-down-alt' : isSortedAsc.estado
+              }">
+          &lt;/i>
+        &lt;/button>
+      &lt;/th>
+      &lt;th scope="col" style="width: 20%">Asignada a
+        &lt;button type="button" class="btn" @click="sorteBy('nameUserAsigned')">
+          &lt;i :class="{
+                'bi bi-sort-down' : isSortedAsc.nameUserAsigned===false,
+                'bi bi-sort-down-alt' : isSortedAsc.nameUserAsigned
+              }">
+          &lt;/i>
+        &lt;/button>
+      &lt;/th>
+    &lt;/tr>
+    &lt;/thead>
+
+    &lt;tbody >
+        &lt;tr v-for="(todo) in tareas" :key="todo.id" >
+          &lt;td class="pt-3 fs-3"  >{{ todo.titulo }}
+          &lt;p class="fs-5" >{{ todo.descripcion }}&lt;/p>
+          &lt;/td>
+          &lt;td class="pt-3 fs-5"> {{ todo.fecha_entrega}}&lt;/td>
+          &lt;td class="pt-3">
+            &lt;div class="d-flex justify-content-start align-items-center">
+              &lt;div class="status-indicator mb-1 me-2"
+                  :class="{
+                    'status-indicator-todo': todo.estado === 'no-empezado',
+                    'status-indicator-ongoing': todo.estado === 'en-proceso',
+                    'status-indicator-finished': todo.estado === 'terminada',}">
+              &lt;/div>
+              &lt;div class="status-text"
+                  @click="changeStatus(todo.id, todo.estado)"
+                  :class="{
+                      'status-text-todo': todo.estado === 'no-empezado',
+                      'status-text-ongoing': todo.estado === 'en-proceso',
+                      'status-text-finished': todo.estado === 'terminada',}">
+                &lt;p class="fs-5">{{ todo.estado }}&lt;/p>
+              &lt;/div>
+            &lt;/div>
+          &lt;/td>
+          &lt;td class="pt-3 fs-5">{{ todo.nameUserAsigned}}&lt;/td>
+
+          &lt;td v-if="propietario" class="pt-3">&lt;a @click="eliminar(todo.id)" class="bi bi-x-octagon fs-4 status-text-todo">&lt;/a>&lt;/td>
+
+        &lt;/tr>
+    &lt;/tbody>
+  &lt;/table>
+    &lt;pagination
+        :pagination="pagination"
+        @go-to-page="gotoPage"
+        class="d-flex flex-wrap mt-5 justify-content-center"
+    />
+  &lt;/div>
+&lt;/template>
+
+
+&lt;script>
+/**
+ * @file listadoTareas.vue - Lista las tareas obtenidas desde la API
+ * @author Laura Rodríguez
+ */
+
+import usuariosData from "../database/usuarios.json";
+import {useRoute} from "vue-router";
+import sortJsonArray from 'sort-json-array';
+import axios from "axios";
+import API from "@/routes/API";
+import {esUsuarioRegistrado } from "@/utils/login";
+import pagination from "@/components/pagination.vue";
+
+/**
+ * @vue-prop {Boolean} propietario - Indica si el usuario registrado es el propietario del proyecto
+ *
+ * @vue-data {Object} [data - {}] - Almacena la respuesta de la API
+ * @vue-data {Object}[pagination = {}] - Almacena la paginación que devuelve la API.
+ * @vue-data {Array}[tareas = []] - Almacena las tareas devueltas por la API ya filtradas para el usuario registrado.
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {Array}[todoStatus = ["no-empezado", "en-proceso", "terminada"]] - Almacena los posibles estados de las tareas.
+ * @vue-data {Object}[isSortedAsc = {"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true}] - Almacena los filtros de ordenación de las tareas.
+ *
+ * @vue-event sorteBy - Ordena la tabla de tareas según el filtro pasado por parámetro
+ * @vue-event changeStatus - Cambia el estado de la tarea
+ * @vue-event getUser - Devuelve el nombre de usuario del usuario registrado
+ * @vue-event eliminar - Elimina una tarea
+ * @vue-event gotoPage - pide los proyectos de la siguiente página a la API
+ */
+export default {
+  name: "ListadoTareas",
+  props:{
+    propietario:{
+      type: Boolean
+    }
+  },
+  data(){
+    return {
+      data:{},
+      pagination: {},
+      tareas : [],
+      usuarios: usuariosData,
+      todoStatus: ["no-empezado", "en-proceso", "terminada"],
+      isSortedAsc:{"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
+      esCreador: false,
+      msg: ""
+
+    }
+  },
+  components:{
+    pagination
+  },
+  mounted() {
+    const route = useRoute();
+
+    axios.get(API + '/tareas?proyecto='+ route.params.id)
+        .then(response => {
+          this.data = response.data
+          this.pagination = response.data.pagination
+          response.data.content.map(tarea =>{
+            if(this.propietario){
+              this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
+            }else if(esUsuarioRegistrado(tarea.asignada_a)){
+              this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
+            }
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+  },
+
+
+  methods : {
+    sorteBy(property){
+      (this.isSortedAsc[property]) ?
+          sortJsonArray(this.tareas, property, "asc") :
+          sortJsonArray(this.tareas, property, "des") ;
+      this.isSortedAsc[property] = !this.isSortedAsc[property]
+    },
+    changeStatus(index, estado) {
+      let statusIndex = this.todoStatus.indexOf(estado);
+      if (++statusIndex > 2) statusIndex = 0;
+
+      this.tareas.map(task =>{
+        if(task.id == index)
+          task.estado = this.todoStatus[statusIndex]
+      })
+    },
+    getUser (idUser){
+      return  this.usuarios[idUser].username
+    },
+    eliminar(idTarea){
+
+      axios.delete(API + '/tareas/'+ idTarea)
+        .then(response => {
+          if(response.status==200){
+            this.msg= "Tarea borrada correctamente."
+            this.$emit('componenteCreado');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    gotoPage(page) {
+      axios.get(page)
+          .then(response => {
+            this.proyectos = response.data.content;
+            this.pagination = response.data.pagination;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+  }
+}
+&lt;/script>
+
+
+&lt;style scoped>
+.proyects-card {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/*Estados de la tarea*/
+.status-text {
+  font-weight: bold;
+  cursor: pointer;
+}
+.status-text-todo {
+  color: red;
+}
+.status-text-ongoing {
+  color: blue;
+}
+.status-text-finished {
+  color: green;
+}
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.status-indicator-todo {
+  background: red;
+}
+.status-indicator-ongoing {
+  background: blue;
+}
+.status-indicator-finished {
+  background: green;
+}
+
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 <template>
   <div class="register-form  mt-5">
-
     <form novalidate @submit.prevent="submitForm">
       <label for="email">Email:</label>
       <input type="text" id="email" v-model="email" required />
@@ -17,9 +16,23 @@
 </template>
 
 <script>
-
+/**
+ * @file login-form.vue - Formulario de login
+ * @author Laura Rodríguez
+ */
 
 import {isEmpty, validEmail, validPassword} from "@/utils/validations";
+/**
+ * @vue-prop {Function} isRegistered
+ *
+ * @vue-data {String}[email = ""] - Email del usuario
+ * @vue-data {String}[password = ""] - Password
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event email - valida el input del email
+ * @vue-event password - valida el input del password
+ * @vue-event submitForm - si los datos del formulario son correctos envia a la pág Dashboard
+ */
 
 export default {
   props:{

@@ -25,10 +25,19 @@
 </template>
 
 <script>
-
+/**
+ * @file perfil.vue - Vista del perfil del usuario
+ * @author Laura Rodríguez
+ */
 import Navbar from "../components/navbar.vue";
 import image from "../assets/sample_avatars/avatar001.png";
 import usuariosData from "../database/usuarios.json";
+
+/**
+ * @vue-data {image}[image = image] - Almacena la imagen de perfil del usuario
+ * @vue-data {Object}[user = {}] - Almacena los datos del usuario registrado
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ */
 export default {
   name: 'perfil',
   components: {

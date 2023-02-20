@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/taskForm.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/taskForm.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;div class="d-flex flex-column text-center align-items-center justify-content-center">
+    &lt;h2 class="display-5 my-5">Nueva tarea&lt;/h2>
+    &lt;span class="mb-3 mt-0" v-if="msg.faltanDatos">{{msg.faltanDatos}}&lt;/span>
+
+    &lt;form class="d-flex flex-column text-center align-items-center justify-content-center px-5 gap-3 w-75"  novalidate @submit.prevent="submitForm">
+      &lt;div class="mb-3 w-75">
+        &lt;div class="input-group input-group-sm ">
+          &lt;span class="input-group-text p-2" id="inputGroup-sizing-sm" style="width: 7rem;">Título tarea&lt;/span>
+          &lt;input v-model="titulo" id="titulo" type="text" class="form-control " >
+        &lt;/div>
+        &lt;span class="mb-3 mt-0" v-if="msg.titulo">{{msg.titulo}}&lt;/span>
+      &lt;/div>
+
+      &lt;div class="mb-3 w-75">
+        &lt;div class="input-group input-group-sm">
+          &lt;span class="input-group-text p-2" id="inputGroup-sizing-sm" style="width: 7rem;">Asignada a:&lt;/span>
+          &lt;select v-model="asignada_a" class="form-select " aria-label="Default select example" id="asignedTo">
+            &lt;option selected>Miembro equipo &lt;/option>
+            &lt;option v-for="member in proyecto.miembros" :key="member" :value="member">{{ getUser(member) }}&lt;/option>
+          &lt;/select>
+        &lt;/div>
+        &lt;span v-if="msg.asignada_a">{{msg.asignada_a}}&lt;/span>
+      &lt;/div>
+
+
+      &lt;div class="mb-3 w-75">
+        &lt;div class="input-group input-group-sm">
+          &lt;span class="input-group-text p-2" style="width: 7rem;">Descripción&lt;/span>
+          &lt;textarea v-model="descripcion" class="form-control" aria-label="With textarea">&lt;/textarea>
+        &lt;/div>
+        &lt;span v-if="msg.descripcion">{{msg.descripcion}}&lt;/span>
+      &lt;/div>
+
+      &lt;div class="mb-3 w-75">
+        &lt;div class="input-group input-group-sm ">
+          &lt;span class="input-group-text p-2 " style="width: 7rem;"> Entrega: &lt;/span>
+          &lt;input v-model="fecha_entrega" id="fecha_entrega" class="form-control" type="date" />
+        &lt;/div>
+        &lt;span v-if="msg.fecha_entrega">{{msg.fecha_entrega}}&lt;/span>
+      &lt;/div>
+
+      &lt;input type="submit" value="Añadir tarea" class="btn btn-outline-secondary mt-4" />
+    &lt;/form>
+  &lt;/div>
+&lt;/template>
+
+&lt;script>
+/**
+ * @file taskForm.vue - Formulario de creación de tarea
+ * @author Laura Rodríguez
+ */
+import {useRoute} from "vue-router";
+import axios from "axios";
+import API from "@/routes/API";
+import usuariosData from "../database/usuarios.json";
+import {isEmpty, validDate, validDescription, validName} from "@/utils/validations";
+
+/**
+ * @vue-data {String}[titulo = ""] - Título de la tarea
+ * @vue-data {String}[asiganada_a = ""] - Persona a la que se asigna la tarea
+ * @vue-data {String}[descripcion = ""] - Descripcion de la tarea
+ * @vue-data {String}[fecha_entrega = ""] - Fecha de entrega de la tarea
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event titulo - valida el input del título
+ * @vue-event descripcion - valida el input de la descripción
+ * @vue-event asiganada_a - valida el input de la persona a la que se asigna la tarea
+ * @vue-event fecha_entrega - valida el input de la fecha de entrega la tarea
+ * @vue-event submitForm - envia una petición post a la API con los datos de la nueva tarea
+ */
+export default {
+  name: "taskForm",
+  data(){
+      return {
+        titulo        : "",
+        asignada_a    : "",
+        descripcion   : "",
+        fecha_entrega : "",
+
+        msg: {
+          titulo        : "",
+          descripcion   : "",
+          asignada_a    : "",
+          fecha_entrega : "",
+          faltanDatos : ""
+        },
+        usuarios: usuariosData,
+        proyecto:{}
+      }
+  },
+  watch: {
+    titulo(value){
+      this.titulo     = value;
+      this.msg.titulo = validName(value)
+    },
+    descripcion(value){
+      this.descripcion      = value;
+      this.msg.descripcion  = validDescription(value)
+    },
+    asignada_a(value){
+      this.asignada_a      = value;
+      this.msg.asignada_a  = this.proyecto.miembros.includes(value)? "": "El usuario no pertenece a su equipo."
+    },
+    fecha_entrega(value){
+      this.fecha_entrega      = value
+      this.msg.fecha_entrega  = validDate(value)
+    }
+
+  },
+  mounted() {
+    const route = useRoute();
+    const urlAPI = API + '/proyectos/'+ route.params.id
+    axios.get(urlAPI).then(response => {
+        this.proyecto = response.data;
+        console.log(response.status)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  methods:{
+    submitForm() {
+      //se comprueba que los campos no vayan vacios
+      this.msg.titulo         = this.msg.titulo         || isEmpty(this.titulo);
+      this.msg.descripcion    = this.msg.descripcion    || isEmpty(this.descripcion)
+      this.msg.asignada_a     = this.msg.asignada_a     || isEmpty(this.asignada_a);
+      this.msg.fecha_entrega  = this.msg.fecha_entrega  || isEmpty(this.fecha_entrega)
+
+      const urlAPI = API +"/tareas";
+      //creo el body para la petición post
+      const body =  {
+                      titulo        : this.titulo,
+                      asignada_a    : this.asignada_a,
+                      descripcion   : this.descripcion,
+                      fecha_entrega : this.fecha_entrega,
+                      id_proyecto   : this.proyecto.id,
+                      estado        : "no-empezado"
+                    }
+      if(Object.values(this.msg).every((err)=> err.length===0)){
+        axios.post(urlAPI, body ).then((result) => {
+          //si el objeto se ha creado correctamente redirige a la pág del proyecto
+          if(result.status == 200){
+            this.$emit('actualizar')
+          }
+        });
+      }else{
+        this.msg.faltanDatos = "Debe completar todos los campos para crear la tarea."
+      }
+    },
+    getUser (idUser){
+      return this.usuarios[idUser].username
+    }
+  }
+}
+&lt;/script>
+
+&lt;style scoped>
+
+span,input, select, textarea{
+  font-size: 1rem !important;
+}
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

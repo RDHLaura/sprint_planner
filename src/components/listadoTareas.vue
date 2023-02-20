@@ -88,6 +88,11 @@
 
 
 <script>
+/**
+ * @file listadoTareas.vue - Lista las tareas obtenidas desde la API
+ * @author Laura Rodríguez
+ */
+
 import usuariosData from "../database/usuarios.json";
 import {useRoute} from "vue-router";
 import sortJsonArray from 'sort-json-array';
@@ -96,7 +101,22 @@ import API from "@/routes/API";
 import {esUsuarioRegistrado } from "@/utils/login";
 import pagination from "@/components/pagination.vue";
 
-
+/**
+ * @vue-prop {Boolean} propietario - Indica si el usuario registrado es el propietario del proyecto
+ *
+ * @vue-data {Object} [data - {}] - Almacena la respuesta de la API
+ * @vue-data {Object}[pagination = {}] - Almacena la paginación que devuelve la API.
+ * @vue-data {Array}[tareas = []] - Almacena las tareas devueltas por la API ya filtradas para el usuario registrado.
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {Array}[todoStatus = ["no-empezado", "en-proceso", "terminada"]] - Almacena los posibles estados de las tareas.
+ * @vue-data {Object}[isSortedAsc = {"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true}] - Almacena los filtros de ordenación de las tareas.
+ *
+ * @vue-event sorteBy - Ordena la tabla de tareas según el filtro pasado por parámetro
+ * @vue-event changeStatus - Cambia el estado de la tarea
+ * @vue-event getUser - Devuelve el nombre de usuario del usuario registrado
+ * @vue-event eliminar - Elimina una tarea
+ * @vue-event gotoPage - pide los proyectos de la siguiente página a la API
+ */
 export default {
   name: "ListadoTareas",
   props:{

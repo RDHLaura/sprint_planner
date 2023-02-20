@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/registro-form.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/registro-form.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;div class= "register-form ">
+    &lt;form novalidate @submit.prevent="submitForm" >
+      &lt;label for="nombre">Nombre de usuario:&lt;/label>
+      &lt;input type="text" id="nombre" v-model="nombre" required />
+      &lt;span v-if="msg.nombre">{{msg.nombre}}&lt;/span>
+
+      &lt;label for="email">Email:&lt;/label>
+      &lt;input type="text" id="email" v-model="email" required />
+      &lt;span v-if="msg.email">{{msg.email}}&lt;/span>
+
+      &lt;label for="clave">Contraseña:&lt;/label>
+      &lt;input type="password" id="password" v-model="password" required />
+      &lt;span class="pb-5" v-if="msg.password">{{msg.password}}&lt;/span>
+
+      &lt;label for="checkpassword">Repetir contraseña:&lt;/label>
+      &lt;input type="password" id="checkpassword" v-model="checkpassword" required />
+      &lt;span v-if="msg.checkpassword">{{msg.checkpassword}}&lt;/span>
+
+      &lt;button value="Entrar" class="btn btn-outline-secondary w-100 fs-4 fw-bold">Regístraste&lt;/button>
+      &lt;button class="btn btn-link w-100 align-self-center fs-4"  type="button" @click="isRegistered"> Ya tengo cuenta&lt;/button>
+
+    &lt;/form>
+
+  &lt;/div>
+&lt;/template>
+
+&lt;script>
+/**
+ * @file registro-form.vue - Formulario de registro
+ * @author Laura Rodríguez
+ */
+import {
+  validEmail,
+  validPassword,
+  validPasswordCheck,
+  isEmpty,
+  validName
+} from "@/utils/validations";
+
+/**
+ * @vue-prop {Function} isRegistered
+ *
+ * @vue-data {String}[nombre = ""] - Nombre del usuario
+ * @vue-data {String}[email = ""] - Email del usuario
+ * @vue-data {String}[userGithub = ""] - userGithub del usuario
+ * @vue-data {String}[password = ""] - password
+ * @vue-data {String}[checkpassword = ""] - checkpassword
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event email - valida el input del email
+ * @vue-event password - valida el input del password
+ * @vue-event checkpassword - valida que la segunda vez que se mete la contraseña coincida con la primera
+ * @vue-event nombre - valida el input del nombre
+ * @vue-event submitForm - si los datos del formulario son correctos envia a la pág Dashboard
+ */
+export default {
+  props:{
+    isRegistered:{
+      type: Function
+    }
+  },
+  data() {
+    return {
+      nombre: "",
+      email: "",
+      userGithub: "",
+      password: "",
+      checkpassword: "",
+      msg: {
+        nombre: "",
+        email: "",
+        password: "",
+        checkpassword: "",
+      },
+    };
+  },
+  watch: {
+    email(value){
+      this.email      = value;
+      this.msg.email  = validEmail(value)
+    },
+    password(value){
+      this.password     = value;
+      this.msg.password = validPassword(value)
+    },
+    checkpassword(value){
+      this.checkpassword      = value;
+      this.msg.checkpassword  = validPasswordCheck(this.password, value)
+    },
+    nombre(value){
+      this.nombre = value;
+      this.msg.nombre = validName(value) || isEmpty(value)
+    }
+  },
+  methods: {
+    submitForm() {
+      //se comprueba que los campos no vayan vacios
+      this.msg.email          = this.msg.email          || isEmpty(this.email);
+      this.msg.nombre         = this.msg.nombre         || isEmpty(this.nombre)
+      this.msg.password       = this.msg.password       || isEmpty(this.password);
+      this.msg.checkpassword  = this.msg.checkpassword  || isEmpty(this.password)
+
+      if(Object.values(this.msg).every((err)=> err.length===0))
+        this.$router.push("/proyectos")
+    },
+  }
+};
+&lt;/script>
+
+&lt;style scoped>
+@import '../assets/form.css';
+spam,input, select, textarea, a{
+  font-size: 1.2rem !important;
+}
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

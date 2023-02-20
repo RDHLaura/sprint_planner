@@ -46,13 +46,29 @@
 </template>
 
 <script>
-
+/**
+ * @file taskForm.vue - Formulario de creación de tarea
+ * @author Laura Rodríguez
+ */
 import {useRoute} from "vue-router";
 import axios from "axios";
 import API from "@/routes/API";
 import usuariosData from "../database/usuarios.json";
 import {isEmpty, validDate, validDescription, validName} from "@/utils/validations";
 
+/**
+ * @vue-data {String}[titulo = ""] - Título de la tarea
+ * @vue-data {String}[asiganada_a = ""] - Persona a la que se asigna la tarea
+ * @vue-data {String}[descripcion = ""] - Descripcion de la tarea
+ * @vue-data {String}[fecha_entrega = ""] - Fecha de entrega de la tarea
+ * @vue-data {Object}[msg = {}] - Almacena los mensajes de error del formulario
+ *
+ * @vue-event titulo - valida el input del título
+ * @vue-event descripcion - valida el input de la descripción
+ * @vue-event asiganada_a - valida el input de la persona a la que se asigna la tarea
+ * @vue-event fecha_entrega - valida el input de la fecha de entrega la tarea
+ * @vue-event submitForm - envia una petición post a la API con los datos de la nueva tarea
+ */
 export default {
   name: "taskForm",
   data(){
@@ -97,6 +113,7 @@ export default {
     const urlAPI = API + '/proyectos/'+ route.params.id
     axios.get(urlAPI).then(response => {
         this.proyecto = response.data;
+        console.log(response.status)
       })
       .catch(error => {
         console.log(error);
@@ -110,9 +127,8 @@ export default {
       this.msg.asignada_a     = this.msg.asignada_a     || isEmpty(this.asignada_a);
       this.msg.fecha_entrega  = this.msg.fecha_entrega  || isEmpty(this.fecha_entrega)
 
-
-
       const urlAPI = API +"/tareas";
+      //creo el body para la petición post
       const body =  {
                       titulo        : this.titulo,
                       asignada_a    : this.asignada_a,

@@ -21,6 +21,10 @@
 </template>
 
 <script>
+/**
+ * @file proyecto.vue - Vista del proyecto
+ * @author Laura Rodríguez
+ */
 
 import ListadoTareas from "../components/listadoTareas.vue";
 import Navbar from "@/components/navbar.vue";
@@ -31,6 +35,14 @@ import usuariosData from "../database/usuarios.json";
 import ButtonNewTask from "../components/button_newTask.vue"
 import { esCreador } from "@/utils/login";
 
+/**
+ * @vue-data {Object}[proyecto = {}] - Almacena los datos del proyecto obtenidos de la API
+ * @vue-data {Object}[usuarios = usuariosData] - Almacena los datos de los usuarios registrados.
+ * @vue-data {null}[creador = null] - Almacena el nombre del creador del proyecto
+ * @vue-data {Boolean}[creador = null] - Indica si el usuario logueado es el creador del proyecto
+ * @vue-event {Number} getUser - devuelve el id del usuario logueado
+ * @vue-event eliminar - Elimina el proyecto actual
+ */
 export default {
   name: "proyecto",
   data(){
@@ -79,6 +91,7 @@ export default {
             if(response.status==200){
               this.$router.push("/proyectos");
             }
+            console.log(response.status)
           })
           .catch(error => {
             console.log(error);

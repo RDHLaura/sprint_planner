@@ -10,7 +10,17 @@
 </template>
 
 <script>
+/**
+ * @file button_newTask.vue - Botón que abre la vista de creación de la tarea
+ * @author Laura Rodríguez
+ */
+
   import newTask from "@/components/taskForm.vue";
+
+/**
+ * @vue-data {Boolean}[showSquare = false] - Almacena true o false si el componente CrearProyecto esta visible
+ * @vue-event toggleSquare - cambia el valor a showSquare
+ */
   export default {
     data() {
       return {
