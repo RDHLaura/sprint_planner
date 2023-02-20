@@ -30,7 +30,6 @@
 import {validEmail,
         validPassword,
         validPasswordCheck,
-        validNombreUsu,
         isEmpty} from "@/utils/validations";
 
 export default {
