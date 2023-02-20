@@ -6,7 +6,7 @@
       <h2 class="h3 mb-3 fw-bold">Descripción del proyecto:</h2>
       <p class="fs-4 mx-4">{{ proyecto.descripcion }}</p>
       <h2 class="h3 mb-3 fw-bold">Participantes:</h2>
-      <p  class="fs-4 mx-4"> <span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}</span></p>
+      <p  class="fs-4 mx-4 d-flex flex-wrap"> <span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}</span></p>
       <p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
 
       <!--Botón de eliminar proyecto -->
