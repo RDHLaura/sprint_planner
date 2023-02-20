@@ -27,10 +27,13 @@
 
 <script>
 
-import {validEmail,
-        validPassword,
-        validPasswordCheck,
-        isEmpty} from "@/utils/validations";
+import {
+  validEmail,
+  validPassword,
+  validPasswordCheck,
+  isEmpty,
+  validName
+} from "@/utils/validations";
 
 export default {
   props:{
@@ -68,7 +71,7 @@ export default {
     },
     nombre(value){
       this.nombre = value;
-      this.msg.nombre = validNombreUsu(value) || isEmpty(value)
+      this.msg.nombre = validName(value) || isEmpty(value)
     }
   },
   methods: {
