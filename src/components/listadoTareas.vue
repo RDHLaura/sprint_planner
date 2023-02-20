@@ -133,7 +133,6 @@ export default {
       isSortedAsc : {"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
       esCreador   : false,
       msg         : ""
-
     }
   },
   components:{
@@ -158,7 +157,6 @@ export default {
           console.log(error);
         });
   },
-
 
   methods : {
     sorteBy(property){

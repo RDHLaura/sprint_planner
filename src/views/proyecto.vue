@@ -10,7 +10,7 @@
       <p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
 
       <!--Botón de eliminar proyecto -->
-      <div class="d-flex flex-column justify-content-center text-center">
+      <div v-if="propietario" class="d-flex flex-column justify-content-center text-center">
         <p role="button" class="pt-3 text-center" @click="showConfirmation = true" >
           <span class="pb-1 text-danger">Eliminar proyecto</span>
           <span  class="bi bi-x-octagon fs-4 text-danger mx-3"></span>
