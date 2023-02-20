@@ -27,19 +27,19 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>&lt;template >
-  &lt;div class="mt-5">
+  &lt;div class="mt-5 ">
   &lt;h2 class="my-4  display-4">Listado de tareas:&lt;/h2>
   &lt;div v-if="msg !==''" class="p-3 mb-2" style="background-color: #C6EDE2">{{ this.msg }}&lt;/div>
 
   &lt;h3 v-if="tareas.length === 0 &amp;&amp; propietario" class="my-4 fs-3"> Aún no has creado tareas&lt;/h3>
-    &lt;h3 v-if="tareas.length === 0 &amp;&amp; !propietario" class="my-4 fs-3"> Aún no se te han asignado tareas&lt;/h3>
+  &lt;h3 v-if="tareas.length === 0 &amp;&amp; !propietario" class="my-4 fs-3"> Aún no se te han asignado tareas&lt;/h3>
 
   &lt;table v-if="tareas.length !==0" class="table">
     &lt;thead class="table-light fs-5 fw-bold">
     &lt;tr class=" proyects-card">
       &lt;th scope="col w-25" style="width: 40%;">Título
       &lt;button type="button" class="btn" @click="sorteBy('descripcion')">
-        &lt;i :class="{'bi bi-sort-down' : isSortedAsc.descripcion===false,
+        &lt;i :class="{'bi bi-sort-down'     : isSortedAsc.descripcion===false,
                     'bi bi-sort-down-alt' : isSortedAsc.descripcion}">
         &lt;/i>
       &lt;/button>
@@ -48,7 +48,7 @@
       &lt;th scope="col" style="width: 20%">Entrega
         &lt;button type="button" class="btn" @click="sorteBy('fecha_entrega')">
           &lt;i :class="{
-                'bi bi-sort-down' : isSortedAsc.fecha_entrega===false,
+                'bi bi-sort-down'     : isSortedAsc.fecha_entrega===false,
                 'bi bi-sort-down-alt' : isSortedAsc.fecha_entrega
               }">
           &lt;/i>
@@ -57,7 +57,7 @@
       &lt;th scope="col" style="width: 20%" >Estado
         &lt;button type="button" class="btn" @click="sorteBy('estado')">
           &lt;i :class="{
-                'bi bi-sort-down' : isSortedAsc.estado===false,
+                'bi bi-sort-down'     : isSortedAsc.estado===false,
                 'bi bi-sort-down-alt' : isSortedAsc.estado
               }">
           &lt;/i>
@@ -66,7 +66,7 @@
       &lt;th scope="col" style="width: 20%">Asignada a
         &lt;button type="button" class="btn" @click="sorteBy('nameUserAsigned')">
           &lt;i :class="{
-                'bi bi-sort-down' : isSortedAsc.nameUserAsigned===false,
+                'bi bi-sort-down'     : isSortedAsc.nameUserAsigned===false,
                 'bi bi-sort-down-alt' : isSortedAsc.nameUserAsigned
               }">
           &lt;/i>
@@ -85,24 +85,22 @@
             &lt;div class="d-flex justify-content-start align-items-center">
               &lt;div class="status-indicator mb-1 me-2"
                   :class="{
-                    'status-indicator-todo': todo.estado === 'no-empezado',
-                    'status-indicator-ongoing': todo.estado === 'en-proceso',
-                    'status-indicator-finished': todo.estado === 'terminada',}">
+                    'status-indicator-todo'     : todo.estado === 'no-empezado',
+                    'status-indicator-ongoing'  : todo.estado === 'en-proceso',
+                    'status-indicator-finished' : todo.estado === 'terminada',}">
               &lt;/div>
               &lt;div class="status-text"
                   @click="changeStatus(todo.id, todo.estado)"
                   :class="{
-                      'status-text-todo': todo.estado === 'no-empezado',
-                      'status-text-ongoing': todo.estado === 'en-proceso',
+                      'status-text-todo'    : todo.estado === 'no-empezado',
+                      'status-text-ongoing' : todo.estado === 'en-proceso',
                       'status-text-finished': todo.estado === 'terminada',}">
                 &lt;p class="fs-5">{{ todo.estado }}&lt;/p>
               &lt;/div>
             &lt;/div>
           &lt;/td>
           &lt;td class="pt-3 fs-5">{{ todo.nameUserAsigned}}&lt;/td>
-
           &lt;td v-if="propietario" class="pt-3">&lt;a @click="eliminar(todo.id)" class="bi bi-x-octagon fs-4 status-text-todo">&lt;/a>&lt;/td>
-
         &lt;/tr>
     &lt;/tbody>
   &lt;/table>
@@ -112,6 +110,7 @@
         class="d-flex flex-wrap mt-5 justify-content-center"
     />
   &lt;/div>
+
 &lt;/template>
 
 
@@ -154,14 +153,14 @@ export default {
   },
   data(){
     return {
-      data:{},
-      pagination: {},
-      tareas : [],
-      usuarios: usuariosData,
-      todoStatus: ["no-empezado", "en-proceso", "terminada"],
-      isSortedAsc:{"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
-      esCreador: false,
-      msg: ""
+      data        : {},
+      pagination  : {},
+      tareas      : [],
+      usuarios    : usuariosData,
+      todoStatus  : ["no-empezado", "en-proceso", "terminada"],
+      isSortedAsc : {"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
+      esCreador   : false,
+      msg         : ""
 
     }
   },
@@ -173,14 +172,14 @@ export default {
 
     axios.get(API + '/tareas?proyecto='+ route.params.id)
         .then(response => {
-          this.data = response.data
+          this.data       = response.data
           this.pagination = response.data.pagination
           response.data.content.map(tarea =>{
-            if(this.propietario){
+            if(this.propietario)
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
-            }else if(esUsuarioRegistrado(tarea.asignada_a)){
+            else if(esUsuarioRegistrado(tarea.asignada_a))
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
-            }
+
           })
         })
         .catch(error => {
@@ -224,7 +223,7 @@ export default {
     gotoPage(page) {
       axios.get(page)
           .then(response => {
-            this.proyectos = response.data.content;
+            this.proyectos  = response.data.content;
             this.pagination = response.data.pagination;
           })
           .catch(error => {
@@ -283,13 +282,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-contacto.html">contacto</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-button_newProject.html">button_newProject</a></li><li><a href="module-button_newTask.html">button_newTask</a></li><li><a href="module-crearEquipo.html">crearEquipo</a></li><li><a href="module-crearProyecto.html">crearProyecto</a></li><li><a href="module-index.html">index</a></li><li><a href="module-listadoProyectos.html">listadoProyectos</a></li><li><a href="module-listadoTareas.html">listadoTareas</a></li><li><a href="module-login-form.html">login-form</a></li><li><a href="module-perfil.html">perfil</a></li><li><a href="module-proyecto.html">proyecto</a></li><li><a href="module-registro-form.html">registro-form</a></li><li><a href="module-taskForm.html">taskForm</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 21:07:29 GMT+0100 (hora estándar de Europa central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 20 2023 22:38:30 GMT+0100 (hora estándar de Europa central)
 </footer>
 
 <script> prettyPrint(); </script>
