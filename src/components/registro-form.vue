@@ -11,11 +11,11 @@
 
       <label for="clave">Contraseña:</label>
       <input type="password" id="password" v-model="password" required />
-      <span v-if="msg.password">{{msg.password}}</span>
+      <span class="pb-5" v-if="msg.password">{{msg.password}}</span>
 
-      <label for="clave">Repetir contraseña:</label>
-      <input type="password" id="password" v-model="password" required />
-      <span v-if="msg.password">{{msg.password}}</span>
+      <label for="checkpassword">Repetir contraseña:</label>
+      <input type="password" id="checkpassword" v-model="checkpassword" required />
+      <span v-if="msg.checkpassword">{{msg.checkpassword}}</span>
 
       <button value="Entrar" class="btn btn-outline-secondary w-100 fs-4 fw-bold">Regístraste</button>
       <button class="btn btn-link w-100 align-self-center fs-4"  type="button" @click="isRegistered"> Ya tengo cuenta</button>
@@ -27,7 +27,11 @@
 
 <script>
 
-import {validEmail, validPassword, validNombreUsu, isEmpty} from "@/utils/validations";
+import {validEmail,
+        validPassword,
+        validPasswordCheck,
+        validNombreUsu,
+        isEmpty} from "@/utils/validations";
 
 export default {
   props:{
@@ -35,28 +39,33 @@ export default {
       type: Function
     }
   },
-
   data() {
     return {
+      nombre: "",
+      email: "",
+      userGithub: "",
+      password: "",
+      checkpassword: "",
+      msg: {
         nombre: "",
         email: "",
-        userGithub: "",
         password: "",
-        msg: {
-          nombre: "",
-          email: "",
-          password: "",
-        },
+        checkpassword: "",
+      },
     };
   },
   watch: {
     email(value){
-      this.email = value;
-      this.msg.email = validEmail(value)
+      this.email      = value;
+      this.msg.email  = validEmail(value)
     },
     password(value){
-      this.password = value;
+      this.password     = value;
       this.msg.password = validPassword(value)
+    },
+    checkpassword(value){
+      this.checkpassword      = value;
+      this.msg.checkpassword  = validPasswordCheck(this.password, value)
     },
     nombre(value){
       this.nombre = value;
@@ -66,14 +75,14 @@ export default {
   methods: {
     submitForm() {
       //se comprueba que los campos no vayan vacios
-      this.msg.email = this.msg.email || isEmpty(this.email);
-      this.msg.nombre = this.msg.nombre || isEmpty(this.nombre)
-      this.msg.password = this.msg.password || isEmpty(this.password)
+      this.msg.email          = this.msg.email          || isEmpty(this.email);
+      this.msg.nombre         = this.msg.nombre         || isEmpty(this.nombre)
+      this.msg.password       = this.msg.password       || isEmpty(this.password);
+      this.msg.checkpassword  = this.msg.checkpassword  || isEmpty(this.password)
 
       if(Object.values(this.msg).every((err)=> err.length===0))
         this.$router.push("/proyectos")
     },
-
   }
 };
 </script>

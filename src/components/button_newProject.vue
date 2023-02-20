@@ -32,14 +32,15 @@ export default {
 <style scoped>
 #toggle-square {
   position: fixed;
-  top: 2rem;
-  left: calc(50% - 1.5rem);
-  width: 3rem;
-  height: 3rem;
+  top: 10rem;
+  right: 10%;
+  width: 4rem;
+  height: 4rem;
   border-radius: 20px;
-  color: black; /* TODO color fondo*/
+  color: black;
+  background-color:  #C6EDE2;
   transition: all 0.3s ease-in-out;
-  font-size: 1.5rem;
+  font-size: 2rem;
   border-width: 0px;
   z-index: 100;
 }

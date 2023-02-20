@@ -78,6 +78,11 @@
         </tr>
     </tbody>
   </table>
+    <pagination
+        :pagination="pagination"
+        @go-to-page="gotoPage"
+        class="d-flex flex-wrap mt-5 justify-content-center"
+    />
   </div>
 </template>
 
@@ -89,6 +94,7 @@ import sortJsonArray from 'sort-json-array';
 import axios from "axios";
 import API from "@/routes/API";
 import {esUsuarioRegistrado } from "@/utils/login";
+import pagination from "@/components/pagination.vue";
 
 
 export default {
@@ -101,13 +107,18 @@ export default {
   data(){
     return {
       data:{},
+      pagination: {},
       tareas : [],
       usuarios: usuariosData,
       todoStatus: ["no-empezado", "en-proceso", "terminada"],
       isSortedAsc:{"descripcion": true, "fecha_entrega":true,"estado": true,"nameUserAsigned": true},
       esCreador: false,
       msg: ""
+
     }
+  },
+  components:{
+    pagination
   },
   mounted() {
     const route = useRoute();
@@ -115,7 +126,7 @@ export default {
     axios.get(API + '/tareas?proyecto='+ route.params.id)
         .then(response => {
           this.data = response.data
-
+          this.pagination = response.data.pagination
           response.data.content.map(tarea =>{
             if(this.propietario){
               this.tareas.push({...tarea, nameUserAsigned: this.usuarios[tarea.asignada_a].username})
@@ -161,7 +172,17 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    gotoPage(page) {
+      axios.get(page)
+          .then(response => {
+            this.proyectos = response.data.content;
+            this.pagination = response.data.pagination;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
   }
 }
 </script>

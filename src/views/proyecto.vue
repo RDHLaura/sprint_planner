@@ -1,16 +1,18 @@
 <template >
-  <main class="container w-75 vh-100">
+  <main class="container w-75 vh-100" >
     <h1 class="display-3 text-center fw-semibold mb-4" style="color: #454545 !important;">{{ proyecto.titulo }}</h1>
     <div class="bg-light m-3 px-5 py-4 rounded">
       <h2 class="h3 mb-3 fw-bold">Descripción del proyecto:</h2>
       <p class="fs-4 mx-4">{{ proyecto.descripcion }}</p>
       <h2 class="h3 mb-3 fw-bold">Participantes:</h2>
       <p  class="fs-4 mx-4"> <span v-for="miembro in proyecto.miembros" class="mx-3">{{ getUser(miembro) }}</span></p>
+      <p class="blockquote-footer fs-5 mt-3 text-center" >Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
+
     </div>
     <div>
       <ListadoTareas v-if="renderComponent" :propietario="propietario" @componenteCreado="componenteCreado"/>
-    </div>
-    <p class="blockquote-footer fs-5 my-5">Encargado del proyecto: <span class="mx-3 ">{{ this.creador }}</span></p>
+     </div>
+
   </main>
   <ButtonNewTask v-if="propietario" @componenteCreado="componenteCreado" />
 </template>

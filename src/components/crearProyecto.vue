@@ -3,23 +3,31 @@
     <div class="mt-5">
     <h2 class="display-4 m-5">Nuevo proyecto</h2>
 
-    <form class="d-flex flex-column  align-items-center gap-3"   novalidate @submit.prevent="submitForm">
-      <div class="input-group input-group-sm mb-3 w-50 ">
-        <span class="input-group-text px-3" id="inputGroup-sizing-sm" style="width: 7rem;">Título proyecto</span>
-        <input v-model="formData.titulo" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    <form class="d-flex flex-column  align-items-center gap-3" novalidate @submit.prevent="submitForm">
+      <div class="mb-3 w-50">
+        <div class="input-group input-group-sm  ">
+          <span class="input-group-text px-3" id="inputGroup-sizing-sm" style="width: 7rem;">Título proyecto</span>
+          <input v-model="titulo" type="text" class="form-control" id="titulo">
+        </div>
+        <span class="mb-3 mt-0" v-if="msg.titulo">{{msg.titulo}}</span>
       </div>
-      <div class="input-group input-group-sm mb-3 w-50">
-        <span class="input-group-text px-3" style="width: 7rem;">Descripción</span>
-        <textarea v-model="formData.descripcion" class="form-control" aria-label="With textarea"></textarea>
+
+      <div class="mb-3 w-50">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text px-3" style="width: 7rem;">Descripción</span>
+          <textarea v-model="descripcion" id="descripcion" class="form-control"></textarea>
+        </div>
+        <span v-if="msg.descripcion">{{msg.descripcion}}</span>
       </div>
+
+      <!--botones-->
       <div class="m-3 mb-5">
         <a class="btn btn-outline-secondary m-2 " data-bs-toggle="collapse" href="#crearEquipo" role="button" aria-expanded="false" aria-controls="collapseExample">
           Crear equipo
         </a>
         <input type="submit" class="btn btn-outline-secondary m-2" value="Guardar" />
+        <p v-if="msg.miembros">{{msg.miembros}}</p>
       </div>
-
-
     </form>
 
     <!--Crear Equipo-->
@@ -29,8 +37,6 @@
         :team="team"
         class="mt-5"
     />
-
-
     </div>
   </div>
 </template>
@@ -39,33 +45,38 @@
 import CrearEquipo from "@/components/crearEquipo.vue";
 import axios from "axios";
 import API from "@/routes/API";
+import {isEmpty, validDescription,  validName} from "@/utils/validations";
 export default {
   data() {
     return {
       team: [],
-      searchTerm: '',
-      formData: {
-        titulo: "",
-        descripcion: "",
-        miembros: [],
-        creador: 1
-      },
+      titulo      : "",
+      descripcion : "",
+      miembros    : [],
       msg: {
-        titulo: "",
-        descripcion: "",
-        miembros: "",
+        titulo      : "",
+        descripcion : "",
+        miembros    : "",
       },
       newProyect: {}
     };
   },
   components:{
-
     CrearEquipo
   },
   watch: {
     team() {
       this.$forceUpdate();
+    },
+    titulo(value){
+      this.titulo = value;
+      this.msg.titulo = validName(value)
+    },
+    descripcion(value){
+      this.descripcion = value;
+      this.msg.descripcion = validDescription(value)
     }
+
   },
   methods: {
     addToTeam(user) {
@@ -79,15 +90,34 @@ export default {
       this.team = this.team.filter((usr)=> usr.id != user.id )
     },
     submitForm() {
+      //compruebo que se haya creado el equipo
+      if(this.team.length ==0)
+        this.msg.miembros = "Debe tener formar su equipo antes de crear el proyecto."
+
+      //almaceno los miembros del equipo en el formulario que se enviará a la API
       this.team.map(member =>{
-        this.formData.miembros.push(member.id)
+        this.miembros.push(member.id)
       })
-      if(this.formData.titulo !== "" && this.formData.descripcion !== "" && this.formData.miembros.length!=0){
-         axios.post(API +"/proyectos", this.formData).then((result) => {
-          //si el objeto se ha creado correctamente redirige a la pág del proyecto
-          if(result.status == 200){
-            this.$router.push({name: 'proyecto', params: { id: result.data.createdProyect.id }})
-          }
+
+      //se comprueba que los campos no vayan vacios
+      this.msg.titulo       = this.msg.titulo       || isEmpty(this.titulo);
+      this.msg.descripcion  = this.msg.descripcion  || isEmpty(this.descripcion)
+      this.msg.miembros     = this.msg.miembros;
+
+      console.log("entra")
+
+      if(Object.values(this.msg).every((err)=> err.length===0)){
+        axios.post(API +"/proyectos", {
+          titulo      : this.titulo,
+          descripcion : this.descripcion,
+          miembros    : this.miembros,
+          creador     : 1
+        }).then((result) => {
+          if(result.status == 200)
+            this.$router.push({
+              name: 'proyecto',
+              params: { id: result.data.createdProyect.id }
+            })
         });
       }
     },

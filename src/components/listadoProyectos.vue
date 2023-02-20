@@ -1,6 +1,9 @@
 <template >
     <div >
-      <div class="d-flex flex-wrap mt-5 justify-content-center w-100 h-75">
+      <div v-if="proyectos.length === 0" class="rounded p-3 mb-2 fs-3 bg-danger-subtle bg-opacity-50 ">
+        La API está cargando, esto puede llevar un par de minutos...
+      </div>
+      <div v-if="proyectos.length > 0" class="d-flex flex-wrap mt-5 justify-content-center w-100 h-75">
         <div class="card proyects-card m-2 mw-25" v-for="proyecto in proyectos" :key="proyecto.id">
           <router-link :to="{name: 'proyecto', params: { id: proyecto.id }}" class="col">
             <div class="card-header fw-bold fs-4" style="color: #454545 !important; background: #C6EDE2">
@@ -38,7 +41,6 @@ export default {
       proyectos : [],
       usuarios: usuariosData,
       pagination: {}
-
     }
   },
   components:{
@@ -82,7 +84,7 @@ export default {
 .proyects-card {
   align-items: center;
   text-align: center;
-  width: 300px;
+  width: 17rem;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
