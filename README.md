@@ -1,12 +1,12 @@
 # SprintPlanner
 
-Enlace al proyecto desplegado: 
+Enlace al proyecto desplegado:
 
 [https://sprintplannerdaw.netlify.app/](https://sprintplannerdaw.netlify.app/)
 
 ## Descripción del proyecto:
 
-Página que ayuda a los pequeños equipos en la organización y la gestión de proyectos. 
+Página que ayuda a los pequeños equipos en la organización y la gestión de proyectos.
 
 Aplicación que sirve para planificar proyectos de programación, destinado a pequeños equipos o proyectos simples, mediante la organización de los Sprints.
 
@@ -22,11 +22,7 @@ Puede encontrar más información de la api en el siguiente enlace:
 
 [https://github.com/RDHLaura/SprintPlannerAPI](https://github.com/RDHLaura/SprintPlannerAPI)
 
-
-
-
 ## Descarga del proyecto en local
-
 
 Para ello clona el repositorio :
 
